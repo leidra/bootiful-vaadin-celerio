@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>application-generator</artifactId>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>net.leidra</groupId>
+        <artifactId>bootiful-vaadin-celerio</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <properties>
+        <working.dir>application</working.dir>
+        <celerio-maven-plugin.outputDir>${basedir}/${working.dir}</celerio-maven-plugin.outputDir>
+    </properties>
+    <profiles>
+        <profile>
+            <id>application</id>
+            <build>
+                <defaultGoal>initialize</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>com.jaxio.celerio</groupId>
+                        <artifactId>celerio-maven-plugin</artifactId>
+                        <version>${celerio-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>Generates files using the extracted database schema.</id>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.leidra</groupId>
+                                <artifactId>celerio-extensions</artifactId>
+                                <version>1.0.0-SNAPSHOT</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <xmlMetadata>${metada.path}</xmlMetadata>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>echodir</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <target>
+                                        <echo>Moving generated sources</echo>
+                                        <move file="${working.dir}/_pom.xml" tofile="${working.dir}/pom.xml" />
+                                        <move file="${working.dir}" tofile="${project.basedir}/../application/" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cleanGen</id>
+            <build>
+                <defaultGoal>clean</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>com.jaxio.celerio</groupId>
+                        <artifactId>celerio-maven-plugin</artifactId>
+                        <version>${celerio-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>Delete previously generated files (use .celerio/ folder)</id>
+                                <goals>
+                                    <goal>cleanGenerated</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

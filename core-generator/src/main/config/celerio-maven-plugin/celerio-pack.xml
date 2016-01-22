@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<celerioPack xmlns="http://www.jaxio.com/schema/celerio">
+    <packName value="pack-backend-core"/>
+    <packVersion value="1.0.0-SNAPSHOT"/>
+    <packDescription value="Spring boot + Vaadin 7 templates package"/>
+    <packCommand value="mvn -Pdb,metadata,gen generate-sources"/>
+    <packCommandHelp value=""/>
+    <!--<celerioTemplateContext>-->
+        <!--<entityContextProperties>-->
+            <!--<entityContextProperty property="core" subPackage="core.domain"/>-->
+        <!--</entityContextProperties>-->
+    <!--</celerioTemplateContext>-->
+</celerioPack>

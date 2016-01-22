@@ -1,0 +1,60 @@
+$output.file("", "_pom.xml")##
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>$configuration.rootPackage</groupId>
+    <artifactId>ui</artifactId>
+    <packaging>war</packaging>
+    <name>UI</name>
+    <parent>
+        <groupId>$configuration.rootPackage</groupId>
+        <artifactId>$configuration.applicationName</artifactId>
+        <version>${dollar}{application.version}</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+            <version>${dollar}{vaadin.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.leidra.pm</groupId>
+            <artifactId>services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.spring.extensions</groupId>
+            <artifactId>vaadin-spring-ext-core</artifactId>
+            <version>${dollar}{vaadin.spring.extensions.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.spring.extensions</groupId>
+            <artifactId>vaadin-spring-ext-boot</artifactId>
+            <version>${dollar}{vaadin.spring.extensions.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.spring.extensions</groupId>
+            <artifactId>vaadin-spring-ext-security</artifactId>
+            <version>${dollar}{vaadin.spring.extensions.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000
+                    </jvmArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
