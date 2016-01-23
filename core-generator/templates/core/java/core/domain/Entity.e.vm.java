@@ -1,4 +1,4 @@
-$output.java($entity.extension.getEntityByProperty('core'))##
+$output.java($Model, $entity.entityConfig.entityName)##
 
 $output.require("java.util.logging.Logger")##
 $output.require("com.google.common.base.Objects")##

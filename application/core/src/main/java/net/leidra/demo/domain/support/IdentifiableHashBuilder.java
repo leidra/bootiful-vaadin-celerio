@@ -5,7 +5,7 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-core:java/core/domain/support/IdentifiableHashBuilder.p.vm.java
  */
-package net.leidra.demo.core.domain.support;
+package net.leidra.demo.domain.support;
 
 import java.io.Serializable;
 import java.util.logging.Logger;

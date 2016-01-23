@@ -17,25 +17,27 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.google.common.base.Objects;
 import com.jaxio.jpa.querybyexample.Identifiable;
 
-public class UsersDtoDto implements Identifiable<Integer>, Serializable {
+
+public class {Brands}Dto implements Identifiable<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(UsersDto.class.getName());
+    private static final Logger log = Logger.getLogger({Brands}Dto.class.getName());
 
     // Raw attributes
     private Integer id;
     private String name;
-    private String password;
     private Date createdDate;
     private Date lastModifiedName;
 
     @Override
     public String className() {
-        return Users.class.getSimpleName();
+        return Brands.class.getSimpleName();
     }
+
 
     // -- [id] ------------------------
 
     @Override
+
     public Integer getId() {
         return id;
     }
@@ -45,7 +47,7 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
         this.id = id;
     }
 
-    public UsersDto id(Integer id) {
+    public {Brands}Dto id(Integer id) {
         setId(id);
         return this;
     }
@@ -56,8 +58,8 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
     public boolean isIdSet() {
         return id != null;
     }
-
     // -- [name] ------------------------
+
 
     public String getName() {
         return name;
@@ -67,27 +69,12 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
         this.name = name;
     }
 
-    public UsersDto name(String name) {
+    public {Brands}Dto name(String name) {
         setName(name);
         return this;
     }
-
-    // -- [password] ------------------------
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public UsersDto password(String password) {
-        setPassword(password);
-        return this;
-    }
-
     // -- [createdDate] ------------------------
+
 
     public Date getCreatedDate() {
         return createdDate;
@@ -97,12 +84,12 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
         this.createdDate = createdDate;
     }
 
-    public UsersDto createdDate(Date createdDate) {
+    public {Brands}Dto createdDate(Date createdDate) {
         setCreatedDate(createdDate);
         return this;
     }
-
     // -- [lastModifiedName] ------------------------
+
 
     public Date getLastModifiedName() {
         return lastModifiedName;
@@ -112,7 +99,7 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
         this.lastModifiedName = lastModifiedName;
     }
 
-    public UsersDto lastModifiedName(Date lastModifiedName) {
+    public {Brands}Dto lastModifiedName(Date lastModifiedName) {
         setLastModifiedName(lastModifiedName);
         return this;
     }
@@ -120,7 +107,7 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
     /**
      * Apply the default values.
      */
-    public UsersDto withDefaults() {
+    public {Brands}Dto withDefaults() {
         return this;
     }
 
@@ -129,14 +116,16 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
      */
     @Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof UsersDto && hashCode() == other.hashCode());
+        return this == other || (other instanceof {Brands}Dto && hashCode() == other.hashCode());
     }
+
 
     private volatile int previousHashCode = 0;
 
     @Override
     public int hashCode() {
-        int hashCode = Objects.hashCode(getName());
+        int hashCode = Objects.hashCode(
+            getName());
 
         if (previousHashCode != 0 && previousHashCode != hashCode) {
             log.warning("DEVELOPER: hashCode has changed!." //
@@ -148,18 +137,18 @@ public class UsersDtoDto implements Identifiable<Integer>, Serializable {
         return hashCode;
     }
 
+
     /**
-     * Construct a readable string representation for this UsersDto instance.
+     * Construct a readable string representation for this {Brands}Dto instance.
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return Objects.toStringHelper(this) //
-                .add("id", getId()) //
-                .add("name", getName()) //
-                .add("password", "XXXX") //
-                .add("createdDate", getCreatedDate()) //
-                .add("lastModifiedName", getLastModifiedName()) //
-                .toString();
+            .add("id", getId()) //
+            .add("name", getName()) //
+            .add("createdDate", getCreatedDate()) //
+            .add("lastModifiedName", getLastModifiedName()) //
+            .toString();
     }
 }

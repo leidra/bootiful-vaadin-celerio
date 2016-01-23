@@ -1,4 +1,4 @@
-$output.java($entity.extension.getRepositoryByProperty('core'))##
+$output.java($entity.repository)##
 
 #if ($entity.hasUniqueBigIntegerAttribute())
 $output.require("java.math.BigInteger")##

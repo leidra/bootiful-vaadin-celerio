@@ -3,30 +3,37 @@
  * Documentation: http://www.jaxio.com/documentation/celerio/
  * Follow us on twitter: @jaxiosoft
  * Need commercial support ? Contact us: info@jaxio.com
- * Template pack-backend-shared:java/core/domain/Dto.e.vm.java
+ * Template pack-backend-core:java/core/domain/Entity.e.vm.java
  */
-package net.leidra.demo.shared.dtos;
+package net.leidra.demo.domain;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.Objects;
 import com.jaxio.jpa.querybyexample.Identifiable;
 
-public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
+@Entity
+@Table(name = "BRANDS")
+public class Brands implements Identifiable<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(ProductsDto.class.getName());
+    private static final Logger log = Logger.getLogger(Brands.class.getName());
 
     // Raw attributes
     private Integer id;
@@ -34,18 +41,17 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
     private Date createdDate;
     private Date lastModifiedName;
 
-    // Many to one
-    private Brands brand;
-    private Users user;
-
     @Override
     public String className() {
-        return Products.class.getSimpleName();
+        return Brands.class.getSimpleName();
     }
 
     // -- [id] ------------------------
 
     @Override
+    @Column(name = "ID", precision = 10)
+    @GeneratedValue
+    @Id
     public Integer getId() {
         return id;
     }
@@ -55,7 +61,7 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
         this.id = id;
     }
 
-    public ProductsDto id(Integer id) {
+    public Brands id(Integer id) {
         setId(id);
         return this;
     }
@@ -69,6 +75,9 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
 
     // -- [name] ------------------------
 
+    @NotEmpty
+    @Size(max = 50)
+    @Column(name = "NAME", nullable = false, unique = true, length = 50)
     public String getName() {
         return name;
     }
@@ -77,13 +86,16 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
         this.name = name;
     }
 
-    public ProductsDto name(String name) {
+    public Brands name(String name) {
         setName(name);
         return this;
     }
 
     // -- [createdDate] ------------------------
 
+    @NotNull
+    @Column(name = "CREATED_DATE", nullable = false, length = 23)
+    @Temporal(TIMESTAMP)
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -92,13 +104,16 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
         this.createdDate = createdDate;
     }
 
-    public ProductsDto createdDate(Date createdDate) {
+    public Brands createdDate(Date createdDate) {
         setCreatedDate(createdDate);
         return this;
     }
 
     // -- [lastModifiedName] ------------------------
 
+    @NotNull
+    @Column(name = "LAST_MODIFIED_NAME", nullable = false, length = 23)
+    @Temporal(TIMESTAMP)
     public Date getLastModifiedName() {
         return lastModifiedName;
     }
@@ -107,65 +122,15 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
         this.lastModifiedName = lastModifiedName;
     }
 
-    public ProductsDto lastModifiedName(Date lastModifiedName) {
+    public Brands lastModifiedName(Date lastModifiedName) {
         setLastModifiedName(lastModifiedName);
-        return this;
-    }
-
-    // -----------------------------------------------------------------
-    // Many to One support
-    // -----------------------------------------------------------------
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // many-to-one: Products.brand ==> Brands.id
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    @NotNull
-    @JoinColumn(name = "BRAND_ID", nullable = false)
-    @ManyToOne(cascade = { PERSIST, MERGE }, fetch = LAZY)
-    public Brands getBrand() {
-        return brand;
-    }
-
-    /**
-     * Set the {@link #brand} without adding this Products instance on the passed {@link #brand}
-     */
-    public void setBrand(Brands brand) {
-        this.brand = brand;
-    }
-
-    public ProductsDto brand(Brands brand) {
-        setBrand(brand);
-        return this;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // many-to-one: Products.user ==> Users.id
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    @NotNull
-    @JoinColumn(name = "USER_ID", nullable = false)
-    @ManyToOne(cascade = { PERSIST, MERGE }, fetch = LAZY)
-    public Users getUser() {
-        return user;
-    }
-
-    /**
-     * Set the {@link #user} without adding this Products instance on the passed {@link #user}
-     */
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public ProductsDto user(Users user) {
-        setUser(user);
         return this;
     }
 
     /**
      * Apply the default values.
      */
-    public ProductsDto withDefaults() {
+    public Brands withDefaults() {
         return this;
     }
 
@@ -174,7 +139,7 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
      */
     @Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof ProductsDto && hashCode() == other.hashCode());
+        return this == other || (other instanceof Brands && hashCode() == other.hashCode());
     }
 
     private volatile int previousHashCode = 0;
@@ -194,7 +159,7 @@ public class ProductsDtoDto implements Identifiable<Integer>, Serializable {
     }
 
     /**
-     * Construct a readable string representation for this ProductsDto instance.
+     * Construct a readable string representation for this Brands instance.
      * @see java.lang.Object#toString()
      */
     @Override

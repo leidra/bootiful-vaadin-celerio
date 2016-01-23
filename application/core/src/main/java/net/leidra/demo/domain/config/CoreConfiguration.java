@@ -5,7 +5,7 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-core:java/core/config/CoreConfiguration.p.vm.java
  */
-package net.leidra.demo.core.config;
+package net.leidra.demo.domain.config;
 
 import net.leidra.demo.core.domain.EntitiesPackageProvider;
 import net.leidra.demo.core.repositories.RepositoriesPackageProvider;

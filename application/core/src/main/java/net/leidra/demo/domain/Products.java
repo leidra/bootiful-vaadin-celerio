@@ -5,7 +5,7 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-core:java/core/domain/Entity.e.vm.java
  */
-package net.leidra.demo.core.domain;
+package net.leidra.demo.domain;
 
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;

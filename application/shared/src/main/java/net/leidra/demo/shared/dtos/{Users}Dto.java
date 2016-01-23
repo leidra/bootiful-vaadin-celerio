@@ -3,55 +3,42 @@
  * Documentation: http://www.jaxio.com/documentation/celerio/
  * Follow us on twitter: @jaxiosoft
  * Need commercial support ? Contact us: info@jaxio.com
- * Template pack-backend-core:java/core/domain/Entity.e.vm.java
+ * Template pack-backend-shared:java/core/domain/Dto.e.vm.java
  */
-package net.leidra.demo.core.domain;
-
-import static javax.persistence.TemporalType.TIMESTAMP;
+package net.leidra.demo.shared.dtos;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.Objects;
 import com.jaxio.jpa.querybyexample.Identifiable;
 
-@Entity
-@Table(name = "BRANDS")
-public class Brands implements Identifiable<Integer>, Serializable {
+
+public class {Users}Dto implements Identifiable<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(Brands.class.getName());
+    private static final Logger log = Logger.getLogger({Users}Dto.class.getName());
 
     // Raw attributes
     private Integer id;
     private String name;
+    private String password;
     private Date createdDate;
     private Date lastModifiedName;
 
     @Override
     public String className() {
-        return Brands.class.getSimpleName();
+        return Users.class.getSimpleName();
     }
+
 
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "ID", precision = 10)
-    @GeneratedValue
-    @Id
+
     public Integer getId() {
         return id;
     }
@@ -61,7 +48,7 @@ public class Brands implements Identifiable<Integer>, Serializable {
         this.id = id;
     }
 
-    public Brands id(Integer id) {
+    public {Users}Dto id(Integer id) {
         setId(id);
         return this;
     }
@@ -72,12 +59,9 @@ public class Brands implements Identifiable<Integer>, Serializable {
     public boolean isIdSet() {
         return id != null;
     }
-
     // -- [name] ------------------------
 
-    @NotEmpty
-    @Size(max = 50)
-    @Column(name = "NAME", nullable = false, unique = true, length = 50)
+
     public String getName() {
         return name;
     }
@@ -86,16 +70,28 @@ public class Brands implements Identifiable<Integer>, Serializable {
         this.name = name;
     }
 
-    public Brands name(String name) {
+    public {Users}Dto name(String name) {
         setName(name);
         return this;
     }
+    // -- [password] ------------------------
 
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public {Users}Dto password(String password) {
+        setPassword(password);
+        return this;
+    }
     // -- [createdDate] ------------------------
 
-    @NotNull
-    @Column(name = "CREATED_DATE", nullable = false, length = 23)
-    @Temporal(TIMESTAMP)
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -104,16 +100,13 @@ public class Brands implements Identifiable<Integer>, Serializable {
         this.createdDate = createdDate;
     }
 
-    public Brands createdDate(Date createdDate) {
+    public {Users}Dto createdDate(Date createdDate) {
         setCreatedDate(createdDate);
         return this;
     }
-
     // -- [lastModifiedName] ------------------------
 
-    @NotNull
-    @Column(name = "LAST_MODIFIED_NAME", nullable = false, length = 23)
-    @Temporal(TIMESTAMP)
+
     public Date getLastModifiedName() {
         return lastModifiedName;
     }
@@ -122,7 +115,7 @@ public class Brands implements Identifiable<Integer>, Serializable {
         this.lastModifiedName = lastModifiedName;
     }
 
-    public Brands lastModifiedName(Date lastModifiedName) {
+    public {Users}Dto lastModifiedName(Date lastModifiedName) {
         setLastModifiedName(lastModifiedName);
         return this;
     }
@@ -130,7 +123,7 @@ public class Brands implements Identifiable<Integer>, Serializable {
     /**
      * Apply the default values.
      */
-    public Brands withDefaults() {
+    public {Users}Dto withDefaults() {
         return this;
     }
 
@@ -139,14 +132,16 @@ public class Brands implements Identifiable<Integer>, Serializable {
      */
     @Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof Brands && hashCode() == other.hashCode());
+        return this == other || (other instanceof {Users}Dto && hashCode() == other.hashCode());
     }
+
 
     private volatile int previousHashCode = 0;
 
     @Override
     public int hashCode() {
-        int hashCode = Objects.hashCode(getName());
+        int hashCode = Objects.hashCode(
+            getName());
 
         if (previousHashCode != 0 && previousHashCode != hashCode) {
             log.warning("DEVELOPER: hashCode has changed!." //
@@ -158,17 +153,19 @@ public class Brands implements Identifiable<Integer>, Serializable {
         return hashCode;
     }
 
+
     /**
-     * Construct a readable string representation for this Brands instance.
+     * Construct a readable string representation for this {Users}Dto instance.
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return Objects.toStringHelper(this) //
-                .add("id", getId()) //
-                .add("name", getName()) //
-                .add("createdDate", getCreatedDate()) //
-                .add("lastModifiedName", getLastModifiedName()) //
-                .toString();
+            .add("id", getId()) //
+            .add("name", getName()) //
+            .add("password", "XXXX") //
+            .add("createdDate", getCreatedDate()) //
+            .add("lastModifiedName", getLastModifiedName()) //
+            .toString();
     }
 }

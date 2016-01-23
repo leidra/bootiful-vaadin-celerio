@@ -1,22 +1,22 @@
 <map>
   <entry>
-    <string>core/src/main/java/net/leidra/demo/core/repository/UsersRepository.java</string>
-    <com.jaxio.celerio.output.FileMetaData>
-      <pack>pack-backend-core</pack>
-      <template>java/core/repository/EntityRepository.e.vm.java</template>
-      <size>504</size>
-      <path>core/src/main/java/net/leidra/demo/core/repository/UsersRepository.java</path>
-      <lastMod>1453498040000</lastMod>
-    </com.jaxio.celerio.output.FileMetaData>
-  </entry>
-  <entry>
-    <string>core/src/main/java/net/leidra/demo/core/domain/Users.java</string>
+    <string>core/src/main/java/net/leidra/demo/domain/Users.java</string>
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-core</pack>
       <template>java/core/domain/Entity.e.vm.java</template>
-      <size>5007</size>
-      <path>core/src/main/java/net/leidra/demo/core/domain/Users.java</path>
-      <lastMod>1453498040000</lastMod>
+      <size>5002</size>
+      <path>core/src/main/java/net/leidra/demo/domain/Users.java</path>
+      <lastMod>1453562490000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/repository/RepositoriesPackageProvider.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/repository/RepositoriesPackageProvider.p.vm.java</template>
+      <size>390</size>
+      <path>core/src/main/java/net/leidra/demo/repository/RepositoriesPackageProvider.java</path>
+      <lastMod>1453562489000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -26,7 +26,7 @@
       <template>java/core/domain/Entity.e.vm.java</template>
       <size>6341</size>
       <path>core/src/main/java/net/leidra/demo/core/domain/Products.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453542278000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -36,7 +36,97 @@
       <template>java/core/repository/EntityRepository.e.vm.java</template>
       <size>507</size>
       <path>core/src/main/java/net/leidra/demo/core/repository/BrandsRepository.java</path>
-      <lastMod>1453498040000</lastMod>
+      <lastMod>1453548497000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/IdentifiableHashBuilder.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/support/IdentifiableHashBuilder.p.vm.java</template>
+      <size>1610</size>
+      <path>core/src/main/java/net/leidra/demo/domain/IdentifiableHashBuilder.java</path>
+      <lastMod>1453547107000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/support/IdentifiableHashBuilder.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/support/IdentifiableHashBuilder.p.vm.java</template>
+      <size>1618</size>
+      <path>core/src/main/java/net/leidra/demo/domain/support/IdentifiableHashBuilder.java</path>
+      <lastMod>1453562489000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/repository/BrandsRepository.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/repository/EntityRepository.e.vm.java</template>
+      <size>502</size>
+      <path>core/src/main/java/net/leidra/demo/repository/BrandsRepository.java</path>
+      <lastMod>1453562490000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/Brands.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/Entity.e.vm.java</template>
+      <size>4533</size>
+      <path>core/src/main/java/net/leidra/demo/domain/Brands.java</path>
+      <lastMod>1453562489000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/core/repository/UsersRepository.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/repository/EntityRepository.e.vm.java</template>
+      <size>504</size>
+      <path>core/src/main/java/net/leidra/demo/core/repository/UsersRepository.java</path>
+      <lastMod>1453548498000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/EntitiesPackageProvider.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/EntitiesPackageProvider.p.vm.java</template>
+      <size>374</size>
+      <path>core/src/main/java/net/leidra/demo/domain/EntitiesPackageProvider.java</path>
+      <lastMod>1453562489000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/repository/ProductsRepository.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/repository/EntityRepository.e.vm.java</template>
+      <size>508</size>
+      <path>core/src/main/java/net/leidra/demo/repository/ProductsRepository.java</path>
+      <lastMod>1453562490000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/core/domain/Users.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/Entity.e.vm.java</template>
+      <size>5007</size>
+      <path>core/src/main/java/net/leidra/demo/core/domain/Users.java</path>
+      <lastMod>1453542278000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/config/CoreConfiguration.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/config/CoreConfiguration.p.vm.java</template>
+      <size>844</size>
+      <path>core/src/main/java/net/leidra/demo/domain/config/CoreConfiguration.java</path>
+      <lastMod>1453562489000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -46,7 +136,7 @@
       <template>java/core/domain/Entity.e.vm.java</template>
       <size>4538</size>
       <path>core/src/main/java/net/leidra/demo/core/domain/Brands.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453542278000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -56,7 +146,17 @@
       <template>pom.p.vm.xml</template>
       <size>2198</size>
       <path>core/_pom.xml</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453562489000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/domain/Products.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/domain/Entity.e.vm.java</template>
+      <size>6336</size>
+      <path>core/src/main/java/net/leidra/demo/domain/Products.java</path>
+      <lastMod>1453562490000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -66,7 +166,7 @@
       <template>java/core/config/CoreConfiguration.p.vm.java</template>
       <size>842</size>
       <path>core/src/main/java/net/leidra/demo/core/config/CoreConfiguration.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453548966000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -76,7 +176,17 @@
       <template>java/core/domain/support/IdentifiableHashBuilder.p.vm.java</template>
       <size>1623</size>
       <path>core/src/main/java/net/leidra/demo/core/domain/support/IdentifiableHashBuilder.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453542838000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>core/src/main/java/net/leidra/demo/repository/UsersRepository.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-core</pack>
+      <template>java/core/repository/EntityRepository.e.vm.java</template>
+      <size>499</size>
+      <path>core/src/main/java/net/leidra/demo/repository/UsersRepository.java</path>
+      <lastMod>1453562490000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -86,7 +196,7 @@
       <template>java/core/domain/EntitiesPackageProvider.p.vm.java</template>
       <size>379</size>
       <path>core/src/main/java/net/leidra/demo/core/domain/EntitiesPackageProvider.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453542701000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -96,7 +206,7 @@
       <template>java/core/repository/RepositoriesPackageProvider.p.vm.java</template>
       <size>395</size>
       <path>core/src/main/java/net/leidra/demo/core/repository/RepositoriesPackageProvider.java</path>
-      <lastMod>1453498039000</lastMod>
+      <lastMod>1453548853000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -106,7 +216,7 @@
       <template>java/core/repository/EntityRepository.e.vm.java</template>
       <size>513</size>
       <path>core/src/main/java/net/leidra/demo/core/repository/ProductsRepository.java</path>
-      <lastMod>1453498040000</lastMod>
+      <lastMod>1453548497000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
 </map>

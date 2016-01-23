@@ -12,7 +12,7 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ##
-$output.java("${configuration.rootPackage}.core.domain.support", "IdentifiableHashBuilder")##
+$output.java("${configuration.rootPackage}.domain.support", "IdentifiableHashBuilder")##
 
 $output.require("java.io.Serializable")##
 $output.require("java.util.logging.Logger")

@@ -13,7 +13,7 @@
 ## limitations under the License.
 ##
 $output.generateIf($COPYABLE)##
-$output.java("${configuration.rootPackage}.core.domain.support", "Copyable")##
+$output.java("${configuration.rootPackage}.domain.support", "Copyable")##
 
 public interface $output.currentClass<T> {
     /**

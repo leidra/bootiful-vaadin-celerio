@@ -5,7 +5,7 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-services:java/services/services/ServicesPackageProvider.p.vm.java
  */
-package net.leidra.demo.services;
+package net.leidra.demo.service;
 
 public interface ServicesPackageProvider {
 }

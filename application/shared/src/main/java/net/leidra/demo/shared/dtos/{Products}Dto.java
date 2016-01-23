@@ -7,19 +7,27 @@
  */
 package net.leidra.demo.shared.dtos;
 
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.common.base.Objects;
 import com.jaxio.jpa.querybyexample.Identifiable;
 
-public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
+
+public class {Products}Dto implements Identifiable<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(BrandsDto.class.getName());
+    private static final Logger log = Logger.getLogger({Products}Dto.class.getName());
 
     // Raw attributes
     private Integer id;
@@ -27,14 +35,20 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
     private Date createdDate;
     private Date lastModifiedName;
 
+    // Many to one
+    private Brands brand;
+    private Users user;
+
     @Override
     public String className() {
-        return Brands.class.getSimpleName();
+        return Products.class.getSimpleName();
     }
+
 
     // -- [id] ------------------------
 
     @Override
+
     public Integer getId() {
         return id;
     }
@@ -44,7 +58,7 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
         this.id = id;
     }
 
-    public BrandsDto id(Integer id) {
+    public {Products}Dto id(Integer id) {
         setId(id);
         return this;
     }
@@ -55,8 +69,8 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
     public boolean isIdSet() {
         return id != null;
     }
-
     // -- [name] ------------------------
+
 
     public String getName() {
         return name;
@@ -66,12 +80,12 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
         this.name = name;
     }
 
-    public BrandsDto name(String name) {
+    public {Products}Dto name(String name) {
         setName(name);
         return this;
     }
-
     // -- [createdDate] ------------------------
+
 
     public Date getCreatedDate() {
         return createdDate;
@@ -81,12 +95,12 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
         this.createdDate = createdDate;
     }
 
-    public BrandsDto createdDate(Date createdDate) {
+    public {Products}Dto createdDate(Date createdDate) {
         setCreatedDate(createdDate);
         return this;
     }
-
     // -- [lastModifiedName] ------------------------
+
 
     public Date getLastModifiedName() {
         return lastModifiedName;
@@ -96,15 +110,65 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
         this.lastModifiedName = lastModifiedName;
     }
 
-    public BrandsDto lastModifiedName(Date lastModifiedName) {
+    public {Products}Dto lastModifiedName(Date lastModifiedName) {
         setLastModifiedName(lastModifiedName);
+        return this;
+    }
+
+    // -----------------------------------------------------------------
+    // Many to One support
+    // -----------------------------------------------------------------
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // many-to-one: Products.brand ==> Brands.id
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    @NotNull
+    @JoinColumn(name = "BRAND_ID", nullable = false)
+    @ManyToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
+    public Brands getBrand() {
+        return brand;
+    }
+
+    /**
+     * Set the {@link #brand} without adding this Products instance on the passed {@link #brand}
+     */
+    public void setBrand(Brands brand) {
+        this.brand = brand;
+    }
+
+    public {Products}Dto brand(Brands brand) {
+        setBrand(brand);
+        return this;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // many-to-one: Products.user ==> Users.id
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    @NotNull
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
+    public Users getUser() {
+        return user;
+    }
+
+    /**
+     * Set the {@link #user} without adding this Products instance on the passed {@link #user}
+     */
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public {Products}Dto user(Users user) {
+        setUser(user);
         return this;
     }
 
     /**
      * Apply the default values.
      */
-    public BrandsDto withDefaults() {
+    public {Products}Dto withDefaults() {
         return this;
     }
 
@@ -113,14 +177,16 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
      */
     @Override
     public boolean equals(Object other) {
-        return this == other || (other instanceof BrandsDto && hashCode() == other.hashCode());
+        return this == other || (other instanceof {Products}Dto && hashCode() == other.hashCode());
     }
+
 
     private volatile int previousHashCode = 0;
 
     @Override
     public int hashCode() {
-        int hashCode = Objects.hashCode(getName());
+        int hashCode = Objects.hashCode(
+            getName());
 
         if (previousHashCode != 0 && previousHashCode != hashCode) {
             log.warning("DEVELOPER: hashCode has changed!." //
@@ -132,17 +198,18 @@ public class BrandsDtoDto implements Identifiable<Integer>, Serializable {
         return hashCode;
     }
 
+
     /**
-     * Construct a readable string representation for this BrandsDto instance.
+     * Construct a readable string representation for this {Products}Dto instance.
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return Objects.toStringHelper(this) //
-                .add("id", getId()) //
-                .add("name", getName()) //
-                .add("createdDate", getCreatedDate()) //
-                .add("lastModifiedName", getLastModifiedName()) //
-                .toString();
+            .add("id", getId()) //
+            .add("name", getName()) //
+            .add("createdDate", getCreatedDate()) //
+            .add("lastModifiedName", getLastModifiedName()) //
+            .toString();
     }
 }

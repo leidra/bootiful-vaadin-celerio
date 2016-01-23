@@ -1,4 +1,4 @@
-$output.java(${entity.extension.getDtoByProperty('shared')})##
+$output.java("${configuration.rootPackage}.shared.dtos", "{$entity.entityConfig.entityName}Dto")##
 
 $output.require("java.util.logging.Logger")##
 $output.require("com.google.common.base.Objects")##
@@ -6,10 +6,10 @@ $output.require("com.google.common.base.Objects")##
 #if($entity.isRoot())
 $output.require("java.io.Serializable")##
 $output.require("com.jaxio.jpa.querybyexample.Identifiable")##
-public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement}Dto implements Identifiable<$entity.primaryKey.type>${entity.commaAndImplementedInterfaces}, Serializable {
+public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Identifiable<$entity.primaryKey.type>${entity.commaAndImplementedInterfaces}, Serializable {
 #else
 $output.require($entity.parent.core)##
-public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}Dto extends $entity.parent.model.type {
+public#if ($output.isAbstract()) abstract#{end} class output.currentClass extends $entity.parent.model.type {
 #end
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(${output.currentClass}.class.getName());

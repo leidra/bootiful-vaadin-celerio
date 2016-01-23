@@ -5,11 +5,12 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-services:java/services/config/ServicesConfiguration.p.vm.java
  */
-package net.leidra.demo.config;
+package net.leidra.demo.service.support;
 
-import net.leidra.pm.core.services.ServicesPackageProvider;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import net.leidra.demo.service.ServicesPackageProvider;
 
 @Configuration
 @ComponentScan(basePackageClasses = ServicesPackageProvider.class)

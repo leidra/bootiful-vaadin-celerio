@@ -1,4 +1,4 @@
-$output.java("${configuration.rootPackage}.core.domain", "EntitiesPackageProvider")##
+$output.java($Model, "EntitiesPackageProvider")##
 
-public interface EntitiesPackageProvider {
+public interface $output.currentClass {
 }

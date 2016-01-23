@@ -1,4 +1,4 @@
-$output.java("${configuration.rootPackage}.core.repository", "RepositoriesPackageProvider")##
+$output.java($Repository, "RepositoriesPackageProvider")##
 
-public interface RepositoriesPackageProvider {
+public interface $output.currentClass {
 }

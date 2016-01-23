@@ -9,7 +9,7 @@
   <tables>
     <table name="BRANDS" type="TABLE">
       <columns>
-        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_52FB7632_2EAC_4046_A730_E5643F66D73A)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
+        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_9A65B645_015F_43CB_BDE4_65371A9D37B8)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
         <column name="NAME" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="2" size="50" type="VARCHAR"/>
         <column name="CREATED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="3" size="23" type="TIMESTAMP"/>
         <column name="LAST_MODIFIED_NAME" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="4" size="23" type="TIMESTAMP"/>
@@ -25,7 +25,7 @@
     </table>
     <table name="PRODUCTS" type="TABLE">
       <columns>
-        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_4867205E_B542_4EE8_805D_8CDAAD4A0F07)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
+        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_F487BEEE_9507_4BF4_8807_7D822AB8C9DB)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
         <column name="NAME" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="2" size="50" type="VARCHAR"/>
         <column name="BRAND_ID" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="3" size="10" type="INTEGER"/>
         <column name="USER_ID" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="4" size="10" type="INTEGER"/>
@@ -46,7 +46,7 @@
     </table>
     <table name="USERS" type="TABLE">
       <columns>
-        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_74FFBF40_162B_4229_AC34_B43117FFE726)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
+        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_0914367D_AF05_426B_9585_883230DA3523)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
         <column name="NAME" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="2" size="50" type="VARCHAR"/>
         <column name="PASSWORD" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="3" size="250" type="VARCHAR"/>
         <column name="CREATED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="4" size="23" type="TIMESTAMP"/>

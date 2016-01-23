@@ -3,9 +3,9 @@
  * Documentation: http://www.jaxio.com/documentation/celerio/
  * Follow us on twitter: @jaxiosoft
  * Need commercial support ? Contact us: info@jaxio.com
- * Template pack-backend-core:java/core/domain/EntitiesPackageProvider.p.vm.java
+ * Template pack-backend-core:java/core/repository/RepositoriesPackageProvider.p.vm.java
  */
-package net.leidra.demo.core.domain;
+package net.leidra.demo.repository;
 
-public interface EntitiesPackageProvider {
+public interface RepositoriesPackageProvider {
 }

@@ -1,4 +1,4 @@
-$output.java("${configuration.rootPackage}.services", "ServicesPackageProvider")##
+$output.java($Service, "ServicesPackageProvider")##
 
-public interface ServicesPackageProvider {
+public interface $output.currentClass {
 }

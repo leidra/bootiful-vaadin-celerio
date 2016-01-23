@@ -5,12 +5,12 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-core:java/core/repository/EntityRepository.e.vm.java
  */
-package net.leidra.demo.core.repository;
+package net.leidra.demo.repository;
 
 import org.springframework.data.jpa.repository.*;
 
-import net.leidra.demo.core.domain.Products;
+import net.leidra.demo.core.domain.Brands;
 
-public interface ProductsRepository extends JpaRepository<Products, Integer> {
+public interface BrandsRepository extends JpaRepository<Brands, Integer> {
 
 }
