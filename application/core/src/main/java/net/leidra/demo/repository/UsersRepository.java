@@ -7,10 +7,8 @@
  */
 package net.leidra.demo.repository;
 
-import org.springframework.data.jpa.repository.*;
+import net.leidra.demo.domain.Users;
 
-import net.leidra.demo.core.domain.Users;
-
-public interface UsersRepository extends JpaRepository<Users, Integer> {
+public interface UsersRepository extends Repository<Users, Integer> {
 
 }

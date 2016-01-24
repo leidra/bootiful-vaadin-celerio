@@ -1,15 +1,14 @@
-$output.java("${configuration.rootPackage}.shared.dtos", "{$entity.entityConfig.entityName}Dto")##
+$output.java("${configuration.rootPackage}.shared.dtos", "${entity.entityConfig.entityName}Dto")##
 
 $output.require("java.util.logging.Logger")##
 $output.require("com.google.common.base.Objects")##
 
 #if($entity.isRoot())
 $output.require("java.io.Serializable")##
-$output.require("com.jaxio.jpa.querybyexample.Identifiable")##
-public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Identifiable<$entity.primaryKey.type>${entity.commaAndImplementedInterfaces}, Serializable {
+public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Serializable {
 #else
-$output.require($entity.parent.core)##
-public#if ($output.isAbstract()) abstract#{end} class output.currentClass extends $entity.parent.model.type {
+$output.require($entity.parent.model)##
+public#if ($output.isAbstract()) abstract#{end} class $output.currentClass extends $entity.parent.model.type {
 #end
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(${output.currentClass}.class.getName());
@@ -35,7 +34,7 @@ $output.require($attribute)##
 
     // Many to one
 #end
-    private $manyToOne.to.type $manyToOne.to.var;
+    private ${manyToOne.to.type}Dto $manyToOne.to.var;
 #end
 ## --------------- One to One
 #foreach ($oneToOne in $entity.oneToOne.list)
@@ -43,7 +42,7 @@ $output.require($attribute)##
 
     // One to one
 #end
-    private $oneToOne.to.type $oneToOne.to.var;
+    private ${oneToOne.to.type}Dto $oneToOne.to.var;
 #end
 ## --------------- One to Virtual One
 #foreach ($oneToVirtualOne in $entity.oneToVirtualOne.list)
@@ -54,7 +53,7 @@ $output.require($attribute)##
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
 $output.require($oneToVirtualOne.to)##
-    private ${entity.collectionType.type}<$oneToVirtualOne.to.type> $oneToVirtualOne.to.vars = new ${entity.collectionType.implementationType}<$oneToVirtualOne.to.type>();
+    private ${entity.collectionType.type}<${oneToVirtualOne.to.type}Dto> $oneToVirtualOne.to.vars = new ${entity.collectionType.implementationType}<${oneToVirtualOne.to.type}Dto>();
 #end
 ## --------------- One to many
 #foreach ($oneToMany in $entity.oneToMany.list)
@@ -75,13 +74,8 @@ $output.require($entity.collectionType.implementationFullType)##
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
 $output.require($manyToMany.to)##
-    private ${entity.collectionType.type}<$manyToMany.to.type> $manyToMany.to.vars = new ${entity.collectionType.implementationType}<$manyToMany.to.type>();
+    private ${entity.collectionType.type}<${manyToMany.to.type}Dto> $manyToMany.to.vars = new ${entity.collectionType.implementationType}<${manyToMany.to.type}Dto>();
 #end
-
-    @Override
-    public String className() {
-        return ${entity.model.type}.class.getSimpleName();
-    }
 
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
 
@@ -92,7 +86,6 @@ $output.require($manyToMany.to)##
     /**
      * Returns the composite primary key.
      */
-    @Override
 #if($entity.entityConfig.hasTrueIndexed())
     @FieldBridge(impl = ${entity.primaryKey.type}Bridge.class)
 #end
@@ -104,7 +97,6 @@ $output.require($manyToMany.to)##
      * Set the composite primary key.
      * @param $entity.root.primaryKey.var the composite primary key.
      */
-    @Override
     public void ${entity.primaryKey.setter}($entity.primaryKey.type $entity.primaryKey.var) {
         this.$entity.primaryKey.var = $entity.primaryKey.var;
     }
@@ -118,7 +110,6 @@ $output.require($manyToMany.to)##
      * Tells whether or not this instance has a non empty composite primary key set.
      * @return true if a non empty primary key is set, false otherwise
      */
-    @Override
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public boolean ${entity.primaryKey.has}() {
@@ -131,34 +122,11 @@ $output.require($manyToMany.to)##
     // -- [${attribute.var}] ------------------------
 
 #if($attribute.hasComment())$attribute.javadoc#end
-#if ($attribute.isSimplePk())
-    @Override
-#end
-#*
-#foreach ($annotation in $attribute.custom.annotations)
-    $annotation
-#end
-#foreach ($annotation in $attribute.validation.annotations)
-    $annotation
-#end
-#foreach ($annotation in $attribute.jpa.annotations)
-    $annotation
-#end
-#foreach ($annotation in $attribute.formatter.annotations)
-    $annotation
-#end
-#foreach ($annotation in $attribute.search.annotations)
-    $annotation
-#end
-*#
-    public $attribute.type ${attribute.getter}() {
+ public $attribute.type ${attribute.getter}() {
         return $attribute.var;
     }
 #if ($attribute.isSetterAccessibilityPublic())
 
-#if ($attribute.isSimplePk())
-    @Override
-#end
     public void ${attribute.setter}($attribute.type $attribute.var) {
         this.$attribute.var = $attribute.var;
     }
@@ -175,7 +143,6 @@ $output.require($manyToMany.to)##
 #end
 #if($attribute.isSimplePk())
 
-    @Override
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public boolean ${attribute.has}() {
@@ -200,10 +167,7 @@ $output.require($manyToMany.to)##
 #foreach ($annotation in $relation.validation.annotations)
     $annotation
 #end
-#foreach ($annotation in $relation.jpa.annotations)
-    $annotation
-#end
-    public $relation.to.type ${relation.to.getter}() {
+    public ${relation.to.type}Dto ${relation.to.getter}() {
         return $relation.to.var;
     }
 
@@ -214,7 +178,7 @@ $output.require($manyToMany.to)##
      * instead the corresponding adder method provided by {@link $relation.to.type}
 #end
      */
-    public void ${relation.to.setter}($relation.to.type $relation.to.var) {
+    public void ${relation.to.setter}(${relation.to.type}Dto $relation.to.var) {
         this.$relation.to.var = $relation.to.var;
 #if (!$relation.isIntermediate())        
 #foreach ($attributePair in $relation.attributePairs)
@@ -225,7 +189,7 @@ $output.require($manyToMany.to)##
 #end
     }
 
-    public ${output.currentRootClass} ${relation.to.with}($relation.to.type $relation.to.var) {
+    public ${output.currentRootClass} ${relation.to.with}(${relation.to.type}Dto $relation.to.var) {
         ${relation.to.setter}($relation.to.var);
         return ${output.currentRootCast}this;
     }
@@ -242,20 +206,16 @@ $output.require($manyToMany.to)##
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // #{if}($relation.isInverse())Inverse#{else}Owner#{end} side of one-to-one relation: $relation.toString()
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-## TODO : add @NotNull annotation
 #foreach ($annotation in $relation.validation.annotations)
     $annotation
 #end
-#foreach ($annotation in $relation.jpa.annotations)
-    $annotation
-#end
-    public $relation.to.type ${relation.to.getter}() {
+    public ${relation.to.type}Dto ${relation.to.getter}() {
         return $relation.to.var;
     }
 
 #if($relation.isInverse())
 ## Inverse ONE TO ONE SETTER (analog to a one to many)
-    public void ${relation.to.setter}($relation.to.type $relation.to.var) {
+    public void ${relation.to.setter}(${relation.to.type}Dto $relation.to.var) {
         this.$relation.to.var = $relation.to.var;
 
         if (this.$relation.to.var != null) {
@@ -264,7 +224,7 @@ $output.require($manyToMany.to)##
     }
 #else
 ## FORWARD ONE TO ONE SETTER
-    public void ${relation.to.setter}($relation.to.type $relation.to.var) {
+    public void ${relation.to.setter}(${relation.to.type}Dto $relation.to.var) {
         this.$relation.to.var = $relation.to.var;
 #if (!$relation.isIntermediate())        
 #foreach ($attributePair in $relation.attributePairs)
@@ -276,7 +236,7 @@ $output.require($manyToMany.to)##
     }
 #end
 
-    public ${output.currentRootClass} ${relation.to.with}($relation.to.type $relation.to.var) {
+    public ${output.currentRootClass} ${relation.to.with}(${relation.to.type}Dto $relation.to.var) {
         ${relation.to.setter}($relation.to.var);
         return ${output.currentRootCast}this;
     }
@@ -296,10 +256,10 @@ $output.require($manyToMany.to)##
      *
      * @param  $relation.to.var
      */
-    public void ${relation.to.setter}($relation.to.type $relation.to.var) {
+    public void ${relation.to.setter}(${relation.to.type}Dto $relation.to.var) {
         // remove current value from distant bean
         int i = 0;
-        for ($relation.to.type other : ${relation.to.getters}()) {
+        for (${relation.to.type}Dto other : ${relation.to.getters}()) {
             other.${relation.from.setter}(null);
             if (++i > 1) {
                 throw new IllegalStateException("virtual one to one contract broken!");
@@ -319,7 +279,7 @@ $output.require($manyToMany.to)##
         }
     }
 
-    public ${output.currentRootClass} ${relation.to.with}($relation.to.type $relation.to.var) {
+    public ${output.currentRootClass} ${relation.to.with}(${relation.to.type}Dto $relation.to.var) {
         ${relation.to.setter}($relation.to.var);
         return ${output.currentRootCast}this;
     }
@@ -331,8 +291,8 @@ $output.require($manyToMany.to)##
      */
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
-    public $relation.to.type ${relation.to.getter}() {
-        for ($relation.to.type other : ${relation.to.getters}()) {
+    public ${relation.to.type}Dto ${relation.to.getter}() {
+        for (${relation.to.type}Dto other : ${relation.to.getters}()) {
             return other;
         }
         return null;
@@ -344,9 +304,6 @@ $output.require($manyToMany.to)##
      *
      * @return the $relation.to.vars list
      */
-#foreach ($annotation in $relation.jpa.annotations)
-    $annotation
-#end
     protected ${entity.collectionType.type}<$relation.to.type> ${relation.to.getters}() {
         return $relation.to.vars;
     }
@@ -375,9 +332,6 @@ $output.require($manyToMany.to)##
     // one to many: $relation.fromEntity.model.var ==> $relation.to.vars
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-#foreach ($annotation in $relation.jpa.annotations)
-    $annotation
-#end
     public ${entity.collectionType.type}<$relation.to.type> ${relation.to.getters}() {
         return $relation.to.vars;
     }
@@ -389,7 +343,7 @@ $output.require($manyToMany.to)##
      *
      * @param $relation.to.vars the list to set
      */
-    public void ${relation.to.setters}(${entity.collectionType.type}<$relation.to.type> $relation.to.vars) {
+    public void ${relation.to.setters}(${entity.collectionType.type}<${relation.to.type}Dto> $relation.to.vars) {
         this.$relation.to.vars = $relation.to.vars;
     }
     
@@ -402,7 +356,7 @@ $output.require($manyToMany.to)##
      * @param $relation.to.var the to add
      * @return true if the $relation.to.var could be added to the $relation.to.vars list, false otherwise
      */
-    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
         if (${relation.to.getters}().add($relation.to.var)) {
             ${relation.to.var}.${relation.from.setter}(${output.currentRootCast}this);
             return true;
@@ -417,7 +371,7 @@ $output.require($manyToMany.to)##
      * @param $relation.to.var the instance to remove
      * @return true if the $relation.to.var could be removed from the $relation.to.vars list, false otherwise
      */
-    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
         if (${relation.to.getters}().remove($relation.to.var)) {
             ${relation.to.var}.${relation.from.setter}(null);
             return true;
@@ -441,9 +395,6 @@ $output.require($manyToMany.to)##
     /**
      * Returns the {@link #$relation.to.vars} list.
      */
-#foreach ($annotation in $relation.jpa.annotations)
-    $annotation
-#end
     public ${entity.collectionType.type}<$relation.to.type> ${relation.to.getters}() {
         return $relation.to.vars;
     }
@@ -458,7 +409,7 @@ $output.require($manyToMany.to)##
      *
      * @param $relation.to.vars the list of $relation.to.type
      */
-    public void ${relation.to.setters}(${entity.collectionType.type}<$relation.to.type> $relation.to.vars) {
+    public void ${relation.to.setters}(${entity.collectionType.type}<${relation.to.type}Dto> $relation.to.vars) {
         this.$relation.to.vars = $relation.to.vars;
     }
 
@@ -468,7 +419,7 @@ $output.require($manyToMany.to)##
      * and add this $relation.from.var to the passed ${relation.to.var}'s {@link #$relation.from.vars} list
      * to preserve referential integrity at the object level.
      */
-    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
         if (${relation.to.getters}().add(${relation.to.var})) {
             return ${relation.to.var}.${relation.from.getters}().add(${output.currentRootCast}this);
         }
@@ -480,7 +431,7 @@ $output.require($manyToMany.to)##
      * and remove this $relation.from.var from the passed ${relation.to.var}'s {@link #$relation.from.vars} list.
      * to preserve referential integrity at the object level.
      */
-    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
         if (${relation.to.getters}().remove($relation.to.var)) {
             return ${relation.to.var}.${relation.from.getters}().remove(${output.currentRootCast}this);
         }
@@ -491,14 +442,14 @@ $output.require($manyToMany.to)##
     /**
      * Helper method to add the passed {@link $relation.to.type} to the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
         return ${relation.to.getters}().add($relation.to.var);
     }
 
     /**
      * Helper method to remove the passed {@link $relation.to.type} from the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
         return ${relation.to.getters}().remove($relation.to.var);
     }
 #end
@@ -506,7 +457,7 @@ $output.require($manyToMany.to)##
     /**
      * Helper method to determine if the passed {@link $relation.to.type} is present in the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.contains}($relation.to.type $relation.to.var) {
+    public boolean ${relation.to.contains}(${relation.to.type}Dto $relation.to.var) {
         return ${relation.to.getters}() != null && ${relation.to.getters}().contains($relation.to.var);
     }
 #end
@@ -571,13 +522,6 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
 
 #end
 #foreach ($bundle in $entity.attributeBundles)
-#if ($velocityCount == 1)
-    // -----------------------
-    // Localization shortcuts
-    // -----------------------
-$output.require("com.jaxio.jpa.querybyexample.LocaleHolder")##
-#end
-
     /**
      * Locale aware getter for fields whose column's name starts
      * with $bundle.base and ends with _xx where xx is a language code.

@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.leidra.demo.domain.Brands;
 import net.leidra.demo.shared.dtos.BrandsDto;
-import net.leidra.pm.core.entities.Product;
 
 @Service(BrandsService.SERVICE_NAME)
 @Scope(BeanDefinition.SCOPE_SINGLETON)

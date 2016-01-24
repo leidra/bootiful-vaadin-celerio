@@ -13,7 +13,7 @@ $output.file("", "_pom.xml")##
     <parent>
         <groupId>$configuration.rootPackage</groupId>
         <artifactId>$configuration.applicationName</artifactId>
-        <version>${dollar}{application.version}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -30,7 +30,6 @@ $output.file("", "_pom.xml")##
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -40,6 +39,26 @@ $output.file("", "_pom.xml")##
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>$configuration.rootPackage</groupId>
+            <artifactId>core</artifactId>
+            <version>${dollar}{project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>$configuration.rootPackage</groupId>
+            <artifactId>ui</artifactId>
+            <version>${dollar}{project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>$configuration.rootPackage</groupId>
+            <artifactId>shared</artifactId>
+            <version>${dollar}{project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>$configuration.rootPackage</groupId>
+            <artifactId>services</artifactId>
+            <version>${dollar}{project.version}</version>
         </dependency>
     </dependencies>
 </project>

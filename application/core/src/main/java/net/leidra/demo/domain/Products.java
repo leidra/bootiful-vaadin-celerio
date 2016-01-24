@@ -22,6 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -32,11 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.Objects;
-import com.jaxio.jpa.querybyexample.Identifiable;
 
+@MappedSuperclass
 @Entity
 @Table(name = "PRODUCTS")
-public class Products implements Identifiable<Integer>, Serializable {
+public class Products implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(Products.class.getName());
 
@@ -50,14 +51,8 @@ public class Products implements Identifiable<Integer>, Serializable {
     private Brands brand;
     private Users user;
 
-    @Override
-    public String className() {
-        return Products.class.getSimpleName();
-    }
-
     // -- [id] ------------------------
 
-    @Override
     @Column(name = "ID", precision = 10)
     @GeneratedValue
     @Id
@@ -65,7 +60,6 @@ public class Products implements Identifiable<Integer>, Serializable {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -75,7 +69,6 @@ public class Products implements Identifiable<Integer>, Serializable {
         return this;
     }
 
-    @Override
     @Transient
     @XmlTransient
     public boolean isIdSet() {

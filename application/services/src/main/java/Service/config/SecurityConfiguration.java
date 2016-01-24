@@ -5,7 +5,7 @@
  * Need commercial support ? Contact us: info@jaxio.com
  * Template pack-backend-services:java/services/config/SecurityConfiguration.p.vm.java
  */
-package net.leidra.demo.config;
+package Service.config;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;

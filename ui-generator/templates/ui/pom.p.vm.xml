@@ -10,7 +10,7 @@ $output.file("", "_pom.xml")##
     <parent>
         <groupId>$configuration.rootPackage</groupId>
         <artifactId>$configuration.applicationName</artifactId>
-        <version>${dollar}{application.version}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -24,8 +24,9 @@ $output.file("", "_pom.xml")##
             <version>${dollar}{vaadin.starter.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.leidra.pm</groupId>
+            <groupId>$configuration.rootPackage</groupId>
             <artifactId>services</artifactId>
+            <version>${dollar}{project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.spring.extensions</groupId>

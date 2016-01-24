@@ -7,10 +7,8 @@
  */
 package net.leidra.demo.repository;
 
-import org.springframework.data.jpa.repository.*;
+import net.leidra.demo.domain.Brands;
 
-import net.leidra.demo.core.domain.Brands;
-
-public interface BrandsRepository extends JpaRepository<Brands, Integer> {
+public interface BrandsRepository extends Repository<Brands, Integer> {
 
 }

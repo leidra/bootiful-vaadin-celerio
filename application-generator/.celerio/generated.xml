@@ -4,9 +4,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-application</pack>
       <template>pom.p.vm.xml</template>
-      <size>4352</size>
+      <size>5285</size>
       <path>application/_pom.xml</path>
-      <lastMod>1453562497000</lastMod>
+      <lastMod>1453671046000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
 </map>

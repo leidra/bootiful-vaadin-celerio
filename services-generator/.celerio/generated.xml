@@ -6,7 +6,7 @@
       <template>java/services/config/SecurityConfiguration.p.vm.java</template>
       <size>3439</size>
       <path>services/src/main/java/net/leidra/demo/config/SecurityConfiguration.java</path>
-      <lastMod>1453562445000</lastMod>
+      <lastMod>1453664214000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -14,9 +14,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-services</pack>
       <template>java/services/services/Service.e.vm.java</template>
-      <size>1084</size>
+      <size>1078</size>
       <path>services/src/main/java/net/leidra/demo/service/BrandsService.java</path>
-      <lastMod>1453562492000</lastMod>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -26,17 +26,17 @@
       <template>java/services/config/ServicesConfiguration.p.vm.java</template>
       <size>644</size>
       <path>services/src/main/java/net/leidra/demo/service/support/ServicesConfiguration.java</path>
-      <lastMod>1453562445000</lastMod>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
-    <string>services/src/main/java/net/leidra/demo/config/ServicesConfiguration.java</string>
+    <string>services/src/main/java/Service/config/SecurityConfiguration.java</string>
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-services</pack>
-      <template>java/services/config/ServicesConfiguration.p.vm.java</template>
-      <size>638</size>
-      <path>services/src/main/java/net/leidra/demo/config/ServicesConfiguration.java</path>
-      <lastMod>1453536725000</lastMod>
+      <template>java/services/config/SecurityConfiguration.p.vm.java</template>
+      <size>3431</size>
+      <path>services/src/main/java/Service/config/SecurityConfiguration.java</path>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -44,9 +44,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-services</pack>
       <template>pom.p.vm.xml</template>
-      <size>1919</size>
+      <size>2642</size>
       <path>services/_pom.xml</path>
-      <lastMod>1453562445000</lastMod>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -54,9 +54,19 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-services</pack>
       <template>java/services/services/Service.e.vm.java</template>
-      <size>1075</size>
+      <size>1068</size>
       <path>services/src/main/java/net/leidra/demo/service/UsersService.java</path>
-      <lastMod>1453562493000</lastMod>
+      <lastMod>1453671043000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>services/src/main/java/net/leidra/demo/service/AbstractService.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-services</pack>
+      <template>java/services/services/AbstractService.p.vm.java</template>
+      <size>2893</size>
+      <path>services/src/main/java/net/leidra/demo/service/AbstractService.java</path>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -64,29 +74,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-services</pack>
       <template>java/services/services/Service.e.vm.java</template>
-      <size>1102</size>
+      <size>1098</size>
       <path>services/src/main/java/net/leidra/demo/service/ProductsService.java</path>
-      <lastMod>1453562493000</lastMod>
-    </com.jaxio.celerio.output.FileMetaData>
-  </entry>
-  <entry>
-    <string>services/src/main/java/net/leidra/demo/services/ServicesPackageProvider.java</string>
-    <com.jaxio.celerio.output.FileMetaData>
-      <pack>pack-backend-services</pack>
-      <template>java/services/services/ServicesPackageProvider.p.vm.java</template>
-      <size>386</size>
-      <path>services/src/main/java/net/leidra/demo/services/ServicesPackageProvider.java</path>
-      <lastMod>1453498042000</lastMod>
-    </com.jaxio.celerio.output.FileMetaData>
-  </entry>
-  <entry>
-    <string>services/src/main/java/Service/config/ServicesConfiguration.java</string>
-    <com.jaxio.celerio.output.FileMetaData>
-      <pack>pack-backend-services</pack>
-      <template>java/services/config/ServicesConfiguration.p.vm.java</template>
-      <size>630</size>
-      <path>services/src/main/java/Service/config/ServicesConfiguration.java</path>
-      <lastMod>1453537451000</lastMod>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -96,7 +86,7 @@
       <template>java/services/services/ServicesPackageProvider.p.vm.java</template>
       <size>385</size>
       <path>services/src/main/java/net/leidra/demo/service/ServicesPackageProvider.java</path>
-      <lastMod>1453562445000</lastMod>
+      <lastMod>1453671043000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
 </map>

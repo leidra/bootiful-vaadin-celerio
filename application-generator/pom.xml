@@ -58,9 +58,32 @@
                                 <configuration>
                                     <target>
                                         <echo>Moving generated sources</echo>
-                                        <move file="${working.dir}/_pom.xml" tofile="${working.dir}/pom.xml" />
-                                        <move file="${working.dir}" tofile="${project.basedir}/../application/" />
+                                        <move file="${working.dir}/_pom.xml" tofile="${working.dir}/pom.xml"/>
+                                        <move file="${working.dir}" tofile="${project.basedir}/../application/"/>
                                     </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>Adding generated java folder to build</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>../application/core/src/main/java</source>
+                                        <source>../application/shared/src/main/java</source>
+                                        <source>../application/services/src/main/java</source>
+                                        <source>../application/ui/src/main/java</source>
+                                        <source>../application/</source>
+                                    </sources>
                                 </configuration>
                             </execution>
                         </executions>

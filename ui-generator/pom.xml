@@ -60,6 +60,14 @@
                                         <echo>Moving generated sources</echo>
                                         <move file="${working.dir}/_pom.xml" tofile="${working.dir}/pom.xml" />
                                         <move file="${working.dir}" tofile="${project.basedir}/../application/${working.dir}" />
+                                        <echo>Copying static sources</echo>
+                                        <copy todir="../application/${working.dir}/src/main/java" failonerror="false">
+                                            <fileset dir="src/main/java"/>
+                                        </copy>
+                                        <echo>Copying static resources</echo>
+                                        <copy todir="../application/${working.dir}/src/main/resources" failonerror="false">
+                                            <fileset dir="src/main/resources"/>
+                                        </copy>
                                     </target>
                                 </configuration>
                             </execution>

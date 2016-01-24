@@ -1,22 +1,22 @@
 <map>
   <entry>
-    <string>shared/src/main/java/net/leidra/demo/shared/dtos/UsersDto.java</string>
-    <com.jaxio.celerio.output.FileMetaData>
-      <pack>pack-backend-shared</pack>
-      <template>java/core/domain/Dto.e.vm.java</template>
-      <size>4115</size>
-      <path>shared/src/main/java/net/leidra/demo/shared/dtos/UsersDto.java</path>
-      <lastMod>1453559482000</lastMod>
-    </com.jaxio.celerio.output.FileMetaData>
-  </entry>
-  <entry>
     <string>shared/src/main/java/net/leidra/demo/shared/dtos/{Users}Dto.java</string>
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-shared</pack>
       <template>java/core/domain/Dto.e.vm.java</template>
       <size>4126</size>
       <path>shared/src/main/java/net/leidra/demo/shared/dtos/{Users}Dto.java</path>
-      <lastMod>1453562495000</lastMod>
+      <lastMod>1453642975000</lastMod>
+    </com.jaxio.celerio.output.FileMetaData>
+  </entry>
+  <entry>
+    <string>shared/src/main/java/net/leidra/demo/shared/dtos/UsersDto.java</string>
+    <com.jaxio.celerio.output.FileMetaData>
+      <pack>pack-backend-shared</pack>
+      <template>java/core/domain/Dto.e.vm.java</template>
+      <size>3900</size>
+      <path>shared/src/main/java/net/leidra/demo/shared/dtos/UsersDto.java</path>
+      <lastMod>1453671041000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -24,9 +24,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-shared</pack>
       <template>pom.p.vm.xml</template>
-      <size>1518</size>
+      <size>1644</size>
       <path>shared/_pom.xml</path>
-      <lastMod>1453562495000</lastMod>
+      <lastMod>1453671041000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -36,7 +36,7 @@
       <template>java/core/domain/Dto.e.vm.java</template>
       <size>3757</size>
       <path>shared/src/main/java/net/leidra/demo/shared/dtos/{Brands}Dto.java</path>
-      <lastMod>1453562495000</lastMod>
+      <lastMod>1453642975000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -44,9 +44,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-shared</pack>
       <template>java/core/domain/Dto.e.vm.java</template>
-      <size>3744</size>
+      <size>3528</size>
       <path>shared/src/main/java/net/leidra/demo/shared/dtos/BrandsDto.java</path>
-      <lastMod>1453559482000</lastMod>
+      <lastMod>1453671041000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -54,9 +54,9 @@
     <com.jaxio.celerio.output.FileMetaData>
       <pack>pack-backend-shared</pack>
       <template>java/core/domain/Dto.e.vm.java</template>
-      <size>5597</size>
+      <size>4954</size>
       <path>shared/src/main/java/net/leidra/demo/shared/dtos/ProductsDto.java</path>
-      <lastMod>1453559482000</lastMod>
+      <lastMod>1453671041000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
   <entry>
@@ -66,7 +66,7 @@
       <template>java/core/domain/Dto.e.vm.java</template>
       <size>5610</size>
       <path>shared/src/main/java/net/leidra/demo/shared/dtos/{Products}Dto.java</path>
-      <lastMod>1453562495000</lastMod>
+      <lastMod>1453642975000</lastMod>
     </com.jaxio.celerio.output.FileMetaData>
   </entry>
 </map>

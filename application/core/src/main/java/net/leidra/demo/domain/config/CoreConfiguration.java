@@ -7,12 +7,12 @@
  */
 package net.leidra.demo.domain.config;
 
-import net.leidra.demo.core.domain.EntitiesPackageProvider;
-import net.leidra.demo.core.repositories.RepositoriesPackageProvider;
-
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import net.leidra.demo.domain.EntitiesPackageProvider;
+import net.leidra.demo.repository.RepositoriesPackageProvider;
 
 @Configuration
 @EntityScan(basePackageClasses = EntitiesPackageProvider.class)

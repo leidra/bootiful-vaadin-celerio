@@ -1,6 +1,6 @@
 $output.java($Service, "${entity.entityConfig.entityName}Service")##
 
-$output.require("net.leidra.pm.core.entities.Product")##
+$output.require($entity.model)##
 $output.require("${configuration.rootPackage}.shared.dtos.${entity.entityConfig.entityName}Dto")##
 $output.require("org.springframework.beans.factory.config.BeanDefinition")##
 $output.require("org.springframework.context.annotation.Scope")##
