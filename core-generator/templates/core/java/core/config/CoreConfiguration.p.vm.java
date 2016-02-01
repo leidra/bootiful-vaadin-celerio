@@ -9,5 +9,4 @@ $output.require("org.springframework.data.jpa.repository.config.EnableJpaReposit
 @Configuration
 @EntityScan(basePackageClasses = EntitiesPackageProvider.class)
 @EnableJpaRepositories(basePackageClasses = RepositoriesPackageProvider.class)
-public class $output.currentClass {
-}
+public class $output.currentClass {}

@@ -1,17 +1,20 @@
 $output.java("${configuration.rootPackage}.shared.dtos", "${entity.entityConfig.entityName}Dto")##
 
-$output.require("java.util.logging.Logger")##
+$output.require("org.slf4j.Logger")##
+$output.require("org.slf4j.LoggerFactory")##
+$output.require("com.google.common.base.MoreObjects")##
 $output.require("com.google.common.base.Objects")##
+$output.require("${configuration.rootPackage}.domain.support.Identifiable")##
 
 #if($entity.isRoot())
 $output.require("java.io.Serializable")##
-public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Serializable {
+public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Identifiable<$entity.primaryKey.type>${entity.commaAndImplementedInterfaces}, Serializable {
 #else
 $output.require($entity.parent.model)##
-public#if ($output.isAbstract()) abstract#{end} class $output.currentClass extends $entity.parent.model.type {
+public#if ($output.isAbstract()) abstract#{end} class $output.currentClass extends $entity.parent.model.type #if ($entity.primaryKey.var == "id") implements Identifiable<$entity.primaryKey.type>#{end} {
 #end
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(${output.currentClass}.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(${output.currentClass}.class);
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
 
     // Composite primary key
@@ -34,6 +37,7 @@ $output.require($attribute)##
 
     // Many to one
 #end
+$output.require("${configuration.rootPackage}.shared.dtos.${manyToOne.to.type}Dto")##
     private ${manyToOne.to.type}Dto $manyToOne.to.var;
 #end
 ## --------------- One to One
@@ -52,7 +56,7 @@ $output.require($attribute)##
 #end
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
-$output.require($oneToVirtualOne.to)##
+$output.require("${configuration.rootPackage}.shared.dtos.${oneToVirtualOne.to.type}Dto")##
     private ${entity.collectionType.type}<${oneToVirtualOne.to.type}Dto> $oneToVirtualOne.to.vars = new ${entity.collectionType.implementationType}<${oneToVirtualOne.to.type}Dto>();
 #end
 ## --------------- One to many
@@ -63,7 +67,8 @@ $output.require($oneToVirtualOne.to)##
 #end
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
-    private ${entity.collectionType.type}<$oneToMany.to.type> $oneToMany.to.vars = new ${entity.collectionType.implementationType}<$oneToMany.to.type>();
+$output.require("${configuration.rootPackage}.shared.dtos.${oneToMany.to.type}Dto")##
+    private ${entity.collectionType.type}<${oneToMany.to.type}Dto> $oneToMany.to.vars = new ${entity.collectionType.implementationType}<${oneToMany.to.type}Dto>();
 #end
 ## --------------- Many to many
 #foreach ($manyToMany in $entity.manyToMany.list)
@@ -73,10 +78,9 @@ $output.require($entity.collectionType.implementationFullType)##
 #end
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
-$output.require($manyToMany.to)##
+$output.require("${configuration.rootPackage}.shared.dtos.${manyToMany.to.type}Dto")##
     private ${entity.collectionType.type}<${manyToMany.to.type}Dto> $manyToMany.to.vars = new ${entity.collectionType.implementationType}<${manyToMany.to.type}Dto>();
 #end
-
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
 
     // -----------------------
@@ -87,6 +91,7 @@ $output.require($manyToMany.to)##
      * Returns the composite primary key.
      */
 #if($entity.entityConfig.hasTrueIndexed())
+##    $output.dynamicAnnotation("org.hibernate.search.annotations.DocumentId")
     @FieldBridge(impl = ${entity.primaryKey.type}Bridge.class)
 #end
     public $entity.primaryKey.type ${entity.primaryKey.getter}() {
@@ -115,18 +120,87 @@ $output.require($manyToMany.to)##
     public boolean ${entity.primaryKey.has}() {
         return ${entity.primaryKey.getter}() != null && ${entity.primaryKey.getter}().areFieldsSet();
     }
-#end
 
+    @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public boolean isNew() {
+        return !${entity.primaryKey.has}();
+    }
+
+#end
+#if ($entity.isAccount())
+$output.require("$entity.collectionType.fullType")##
+$output.require("$entity.collectionType.implementationFullType")##
+
+    // -------------------------------
+    // Role names support
+    // -------------------------------
+
+#if ($entity.accountAttributes.isRoleRelationSet())
+#set ($roleRelation = $entity.accountAttributes.roleRelation)##
+    /**
+     * Returns the granted authorities for this user. You may override
+     * this method to provide your own custom authorities.
+     */
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public ${entity.collectionType.type}<String> getRoleNames() {
+        ${entity.collectionType.type}<String> roleNames = new ${entity.collectionType.implementationType}<String>();
+
+        for ($roleRelation.to.type $roleRelation.to.var : ${roleRelation.to.getters}()) {
+            roleNames.add(${roleRelation.to.var}.${roleRelation.toEntity.roleAttributes.roleName.getter}());
+        }
+
+        return roleNames;
+    }
+#else
+    /**
+     * Default implementation returns hard coded granted authorities for this account (i.e. "ROLE_USER" and "ROLE_ADMIN").
+     * TODO: You should override this method to provide your own custom authorities using your own logic.
+     * Or you can follow Celerio Account Table convention. Please refer to Celerio Documentation.
+     */
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public ${entity.collectionType.type}<String> getRoleNames() {
+        ${entity.collectionType.type}<String> roleNames = new ${entity.collectionType.implementationType}<String>();
+        if ("user".equalsIgnoreCase(${entity.accountAttributes.username.getter}())) {
+            roleNames.add("ROLE_USER");
+        } else if ("admin".equalsIgnoreCase(${entity.accountAttributes.username.getter}())) {
+            roleNames.add("ROLE_USER");
+            roleNames.add("ROLE_ADMIN");
+        }
+
+        log.warn("Returning hard coded role names. TODO: get the real role names");
+        return roleNames;
+    }
+#end
+#end
 #foreach ($attribute in $entity.nonCpkAttributes.list)
 #if(!$attribute.isInFk() || $attribute.isSimplePk())
     // -- [${attribute.var}] ------------------------
 
 #if($attribute.hasComment())$attribute.javadoc#end
- public $attribute.type ${attribute.getter}() {
+#if ($attribute.isSimplePk())
+    @Override
+#end
+#foreach ($annotation in $attribute.custom.annotations)
+    $annotation
+#end
+#foreach ($annotation in $attribute.validation.annotations)
+    $annotation
+#end
+#foreach ($annotation in $attribute.formatter.annotations)
+    $annotation
+#end
+    public $attribute.type ${attribute.getter}() {
         return $attribute.var;
     }
 #if ($attribute.isSetterAccessibilityPublic())
 
+#if ($attribute.isSimplePk())
+    @Override
+#end
     public void ${attribute.setter}($attribute.type $attribute.var) {
         this.$attribute.var = $attribute.var;
     }
@@ -143,11 +217,20 @@ $output.require($manyToMany.to)##
 #end
 #if($attribute.isSimplePk())
 
+    @Override
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public boolean ${attribute.has}() {
         return $attribute.var != null#if ($attribute.isString() && !$attribute.isEnum()) && !${attribute.var}.isEmpty()#end;
     }
+
+    @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public boolean isNew() {
+        return !${entity.primaryKey.has}();
+    }
+
 #end
 #end
 #end
@@ -206,6 +289,7 @@ $output.require($manyToMany.to)##
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // #{if}($relation.isInverse())Inverse#{else}Owner#{end} side of one-to-one relation: $relation.toString()
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## TODO : add @NotNull annotation
 #foreach ($annotation in $relation.validation.annotations)
     $annotation
 #end
@@ -259,7 +343,7 @@ $output.require($manyToMany.to)##
     public void ${relation.to.setter}(${relation.to.type}Dto $relation.to.var) {
         // remove current value from distant bean
         int i = 0;
-        for (${relation.to.type}Dto other : ${relation.to.getters}()) {
+        for ($relation.to.type other : ${relation.to.getters}()) {
             other.${relation.from.setter}(null);
             if (++i > 1) {
                 throw new IllegalStateException("virtual one to one contract broken!");
@@ -291,8 +375,8 @@ $output.require($manyToMany.to)##
      */
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
-    public ${relation.to.type}Dto ${relation.to.getter}() {
-        for (${relation.to.type}Dto other : ${relation.to.getters}()) {
+    public $relation.to.type ${relation.to.getter}() {
+        for ($relation.to.type other : ${relation.to.getters}()) {
             return other;
         }
         return null;
@@ -343,10 +427,9 @@ $output.require($manyToMany.to)##
      *
      * @param $relation.to.vars the list to set
      */
-    public void ${relation.to.setters}(${entity.collectionType.type}<${relation.to.type}Dto> $relation.to.vars) {
+    public void ${relation.to.setters}(${entity.collectionType.type}<$relation.to.type> $relation.to.vars) {
         this.$relation.to.vars = $relation.to.vars;
     }
-    
 
     /**
      * Helper method to add the passed {@link $relation.to.type} to the {@link #$relation.to.vars} list
@@ -356,7 +439,7 @@ $output.require($manyToMany.to)##
      * @param $relation.to.var the to add
      * @return true if the $relation.to.var could be added to the $relation.to.vars list, false otherwise
      */
-    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
         if (${relation.to.getters}().add($relation.to.var)) {
             ${relation.to.var}.${relation.from.setter}(${output.currentRootCast}this);
             return true;
@@ -371,7 +454,7 @@ $output.require($manyToMany.to)##
      * @param $relation.to.var the instance to remove
      * @return true if the $relation.to.var could be removed from the $relation.to.vars list, false otherwise
      */
-    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
         if (${relation.to.getters}().remove($relation.to.var)) {
             ${relation.to.var}.${relation.from.setter}(null);
             return true;
@@ -409,7 +492,7 @@ $output.require($manyToMany.to)##
      *
      * @param $relation.to.vars the list of $relation.to.type
      */
-    public void ${relation.to.setters}(${entity.collectionType.type}<${relation.to.type}Dto> $relation.to.vars) {
+    public void ${relation.to.setters}(${entity.collectionType.type}<$relation.to.type> $relation.to.vars) {
         this.$relation.to.vars = $relation.to.vars;
     }
 
@@ -419,7 +502,7 @@ $output.require($manyToMany.to)##
      * and add this $relation.from.var to the passed ${relation.to.var}'s {@link #$relation.from.vars} list
      * to preserve referential integrity at the object level.
      */
-    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
         if (${relation.to.getters}().add(${relation.to.var})) {
             return ${relation.to.var}.${relation.from.getters}().add(${output.currentRootCast}this);
         }
@@ -431,7 +514,7 @@ $output.require($manyToMany.to)##
      * and remove this $relation.from.var from the passed ${relation.to.var}'s {@link #$relation.from.vars} list.
      * to preserve referential integrity at the object level.
      */
-    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
         if (${relation.to.getters}().remove($relation.to.var)) {
             return ${relation.to.var}.${relation.from.getters}().remove(${output.currentRootCast}this);
         }
@@ -442,14 +525,14 @@ $output.require($manyToMany.to)##
     /**
      * Helper method to add the passed {@link $relation.to.type} to the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.adder}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.adder}($relation.to.type $relation.to.var) {
         return ${relation.to.getters}().add($relation.to.var);
     }
 
     /**
      * Helper method to remove the passed {@link $relation.to.type} from the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.remover}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.remover}($relation.to.type $relation.to.var) {
         return ${relation.to.getters}().remove($relation.to.var);
     }
 #end
@@ -457,7 +540,7 @@ $output.require($manyToMany.to)##
     /**
      * Helper method to determine if the passed {@link $relation.to.type} is present in the {@link #$relation.to.vars} list.
      */
-    public boolean ${relation.to.contains}(${relation.to.type}Dto $relation.to.var) {
+    public boolean ${relation.to.contains}($relation.to.type $relation.to.var) {
         return ${relation.to.getters}() != null && ${relation.to.getters}().contains($relation.to.var);
     }
 #end
@@ -502,8 +585,8 @@ $output.require($manyToMany.to)##
 #end
 
         if (previousHashCode != 0 && previousHashCode != hashCode) {
-            log.warning("DEVELOPER: hashCode has changed!." //
-                    + "If you encounter this message you should take the time to carefuly review equals/hashCode for: " //
+            log.warn("DEVELOPER: hashCode has changed!." //
+                    + "If you encounter this message you should take the time to carefully review equals/hashCode for: " //
                     + getClass().getCanonicalName());
         }
 
@@ -522,10 +605,18 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
 
 #end
 #foreach ($bundle in $entity.attributeBundles)
+#if ($velocityCount == 1)
+    // -----------------------
+    // Localization shortcuts
+    // -----------------------
+$output.require($Context, "LocaleHolder")##
+#end
+
     /**
      * Locale aware getter for fields whose column's name starts
      * with $bundle.base and ends with _xx where xx is a language code.
      */
+    $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public $bundle.type ${bundle.getter}() {
         String language = LocaleHolder.getLocale().getLanguage().toLowerCase();
@@ -536,6 +627,7 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
 #end
         throw new IllegalStateException("Could not find the proper getter for current locale's language " + language);
     }
+
 #end
 
     /**
@@ -544,7 +636,7 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
      */
     @Override
     public String toString() {
-        return #if ($entity.hasParent())super.toString() + #{end}Objects.toStringHelper(this) //
+        return #if ($entity.hasParent())super.toString() + #{end}MoreObjects.toStringHelper(this) //
 #foreach ($attribute in $entity.nonCpkAttributes.list)
 #if(!$attribute.isInFk() || $attribute.isSimplePk())
             .add("${attribute.var}", #if($attribute.isPassword())"XXXX"#else${attribute.getter}()#end) //
@@ -558,6 +650,7 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
      * Return a copy of the current object
      */
     @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public $entity.model.type copy() {
         ${entity.model.type} ${entity.model.var} = new ${entity.model.type}();
@@ -569,12 +662,13 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
      * Copy the current properties to the given object
      */
     @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public void copyTo($entity.model.type $entity.model.var) {
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
-		if (${entity.primaryKey.getter}() != null) {
-			${entity.model.var}.${entity.primaryKey.setter}(${entity.primaryKey.getter}().copy());
-		}
+        if (${entity.primaryKey.getter}() != null) {
+            ${entity.model.var}.${entity.primaryKey.setter}(${entity.primaryKey.getter}().copy());
+        }
 #end
 #foreach ($attribute in $entity.nonCpkAttributes.list)
 #if ($attribute.isSetterAccessibilityPublic())
@@ -586,6 +680,36 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
             ${entity.model.var}.${xToOne.to.setter}(new ${xToOne.to.type}().${entity.primaryKey.with}(${xToOne.to.var}.${identifiableProperty.getter}()));
         }
 #end
+    }
+#end
+#if($entity.auditEntityAttributes.hasCreationAttributes())
+$output.require($Audit, "AuditContextHolder")##
+
+    $output.dynamicAnnotation("javax.persistence.PrePersist")
+    protected void prePersist() {
+        if (AuditContextHolder.audit()) {
+#if($entity.auditEntityAttributes.isCreationAuthorSet())
+            ${entity.auditEntityAttributes.creationAuthor.setter}(AuditContextHolder.username());
+#end
+#if($entity.auditEntityAttributes.isCreationDateSet())
+            ${entity.auditEntityAttributes.creationDate.setter}(new ${entity.auditEntityAttributes.creationDate.type}());
+#end
+        }
+    }
+#end
+#if($entity.auditEntityAttributes.hasLastModificationAttributes())
+$output.require($Audit, "AuditContextHolder")##
+
+    $output.dynamicAnnotation("javax.persistence.PreUpdate")
+    protected void preUpdate() {
+        if (AuditContextHolder.audit()) {
+#if($entity.auditEntityAttributes.isLastModificationAuthorSet())
+            ${entity.auditEntityAttributes.lastModificationAuthor.setter}(AuditContextHolder.username());
+#end
+#if($entity.auditEntityAttributes.isLastModificationDateSet())
+            ${entity.auditEntityAttributes.lastModificationDate.setter}(new ${entity.auditEntityAttributes.lastModificationDate.type}());
+#end
+        }
     }
 #end
 }

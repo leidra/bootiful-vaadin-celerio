@@ -108,22 +108,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <!--<build>-->
-        <!--<defaultGoal>install</defaultGoal>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<artifactId>maven-clean-plugin</artifactId>-->
-                <!--<version>3.0.0</version>-->
-                <!--<configuration>-->
-                    <!--<filesets>-->
-                        <!--<fileset>-->
-                            <!--<directory>application</directory>-->
-                        <!--</fileset>-->
-                    <!--</filesets>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
+    <build>
+        <defaultGoal>clean</defaultGoal>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>application</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <modules>
         <!--<module>celerio-extensions</module>-->
         <module>core-generator</module>

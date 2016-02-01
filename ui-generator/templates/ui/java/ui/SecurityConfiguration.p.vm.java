@@ -1,4 +1,4 @@
-$output.java("${configuration.rootPackage}.config","SecurityConfiguration")##
+$output.java("${configuration.rootPackage}.service.config","SecurityConfiguration")##
 
 $output.require("org.springframework.boot.autoconfigure.security.SecurityProperties")##
 $output.require("org.springframework.context.annotation.Bean")##

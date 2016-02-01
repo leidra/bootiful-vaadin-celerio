@@ -10,7 +10,7 @@ CREATE TABLE brands(
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL UNIQUE,
 	created_date TIMESTAMP NOT NULL,
-	last_modified_name TIMESTAMP NOT NULL,
+	last_modified_date TIMESTAMP NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE users(
 	name VARCHAR(50) NOT NULL UNIQUE,
 	password VARCHAR(250) NOT NULL,
 	created_date TIMESTAMP NOT NULL,
-	last_modified_name TIMESTAMP NOT NULL,
+	last_modified_date TIMESTAMP NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE products(
 	brand_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
 	created_date TIMESTAMP NOT NULL,
-	last_modified_name TIMESTAMP NOT NULL,
+	last_modified_date TIMESTAMP NOT NULL,
 
 	FOREIGN KEY (brand_id) REFERENCES brands(id),
 	FOREIGN KEY (user_id) REFERENCES users(id),

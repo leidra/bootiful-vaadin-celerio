@@ -1,4 +1,4 @@
-$output.java($ServiceSupport, "ServicesConfiguration")##
+$output.java("${configuration.rootPackage}.service", "ServicesConfiguration")##
 
 $output.require($Service, "ServicesPackageProvider")##
 $output.require("org.springframework.context.annotation.ComponentScan")##

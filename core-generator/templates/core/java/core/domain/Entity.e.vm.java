@@ -1,24 +1,46 @@
-$output.java($Model, $entity.entityConfig.entityName)##
+$output.java($entity.model)##
 
-$output.require("java.util.logging.Logger")##
+$output.require("org.slf4j.Logger")##
+$output.require("org.slf4j.LoggerFactory")##
+$output.require("com.google.common.base.MoreObjects")##
 $output.require("com.google.common.base.Objects")##
 
+#if($entity.hasComment())
+/**
+ * $entity.comment
+ */
+#end
+#if ($output.isAbstract())
+## ==============================================
+## /**
+$output.createMetaModelTakeOver($entity.model,
+"$output.headerComment##
+package $entity.model.packageName;
+
+import javax.persistence.metamodel.StaticMetamodel;
+
+@StaticMetamodel(${entity.model.type}.class)
+public class ${entity.model.type}_ extends ${entity.model.type}Base_ {
+}
+")
+## */
+## ==============================================
 $output.dynamicAnnotation("javax.persistence.MappedSuperclass")
-#foreach ($annotation in $entity.jpa.annotations)
-$annotation
 #end
-#foreach ($annotation in $entity.custom.annotations)
-$annotation
-#end
+#foreach($annotation in $entity.jpa.annotations)$annotation#end
+#foreach($annotation in $entity.search.annotations)$annotation#end
+#foreach($annotation in $entity.custom.annotations)$annotation#end
+
 #if($entity.isRoot())
 $output.require("java.io.Serializable")##
-public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Serializable {
+$output.require("${configuration.rootPackage}.domain.support.Identifiable")##
+public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements #if ($entity.primaryKey.var == "id") Identifiable<$entity.primaryKey.type>#{end}${entity.commaAndImplementedInterfaces}, Serializable {
 #else
-$output.require($entity.parent.core)##
-public#if ($output.isAbstract()) abstract#{end} class $output.currentClass extends $entity.parent.model.type {
+$output.require($entity.parent.model)##
+public#if ($output.isAbstract()) abstract#{end} class $output.currentClass extends $entity.parent.model.type #if ($entity.primaryKey.var == "id") implements Identifiable<$entity.primaryKey.type>#{end} {
 #end
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(${output.currentClass}.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(${output.currentClass}.class);
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
 
     // Composite primary key
@@ -41,6 +63,7 @@ $output.require($attribute)##
 
     // Many to one
 #end
+$output.require($manyToOne.to)##
     private $manyToOne.to.type $manyToOne.to.var;
 #end
 ## --------------- One to One
@@ -49,6 +72,7 @@ $output.require($attribute)##
 
     // One to one
 #end
+$output.require($oneToOne.to)##
     private $oneToOne.to.type $oneToOne.to.var;
 #end
 ## --------------- One to Virtual One
@@ -70,6 +94,7 @@ $output.require($oneToVirtualOne.to)##
 #end
 $output.require($entity.collectionType.fullType)##
 $output.require($entity.collectionType.implementationFullType)##
+$output.require($oneToMany.to)##
     private ${entity.collectionType.type}<$oneToMany.to.type> $oneToMany.to.vars = new ${entity.collectionType.implementationType}<$oneToMany.to.type>();
 #end
 ## --------------- Many to many
@@ -83,7 +108,6 @@ $output.require($entity.collectionType.implementationFullType)##
 $output.require($manyToMany.to)##
     private ${entity.collectionType.type}<$manyToMany.to.type> $manyToMany.to.vars = new ${entity.collectionType.implementationType}<$manyToMany.to.type>();
 #end
-
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
 
     // -----------------------
@@ -93,7 +117,13 @@ $output.require($manyToMany.to)##
     /**
      * Returns the composite primary key.
      */
+    @Override
     $output.dynamicAnnotation("javax.persistence.EmbeddedId")
+#if($entity.entityConfig.hasTrueIndexed())
+    $output.dynamicAnnotation("org.hibernate.search.annotations.DocumentId")
+    @FieldBridge(impl = ${entity.primaryKey.type}Bridge.class)
+$output.require("org.hibernate.search.annotations.FieldBridge")##
+#end
     public $entity.primaryKey.type ${entity.primaryKey.getter}() {
         return $entity.primaryKey.var;
     }
@@ -102,6 +132,7 @@ $output.require($manyToMany.to)##
      * Set the composite primary key.
      * @param $entity.root.primaryKey.var the composite primary key.
      */
+    @Override
     public void ${entity.primaryKey.setter}($entity.primaryKey.type $entity.primaryKey.var) {
         this.$entity.primaryKey.var = $entity.primaryKey.var;
     }
@@ -111,6 +142,7 @@ $output.require($manyToMany.to)##
         return ${output.currentRootCast}this;
     }
 
+    @Override
     /**
      * Tells whether or not this instance has a non empty composite primary key set.
      * @return true if a non empty primary key is set, false otherwise
@@ -119,6 +151,13 @@ $output.require($manyToMany.to)##
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public boolean ${entity.primaryKey.has}() {
         return ${entity.primaryKey.getter}() != null && ${entity.primaryKey.getter}().areFieldsSet();
+    }
+
+    @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public boolean isNew() {
+        return !${entity.primaryKey.has}();
     }
 #end
 #if ($entity.isAccount())
@@ -163,7 +202,7 @@ $output.require("$entity.collectionType.implementationFullType")##
             roleNames.add("ROLE_ADMIN");
         }
 
-        log.warning("Returning hard coded role names. TODO: get the real role names");
+        log.warn("Returning hard coded role names. TODO: get the real role names");
         return roleNames;
     }
 #end
@@ -173,6 +212,9 @@ $output.require("$entity.collectionType.implementationFullType")##
     // -- [${attribute.var}] ------------------------
 
 #if($attribute.hasComment())$attribute.javadoc#end
+#if ($attribute.isSimplePk())
+    @Override
+#end
 #foreach ($annotation in $attribute.custom.annotations)
     $annotation
 #end
@@ -193,6 +235,9 @@ $output.require("$entity.collectionType.implementationFullType")##
     }
 #if ($attribute.isSetterAccessibilityPublic())
 
+#if ($attribute.isSimplePk())
+    @Override
+#end
     public void ${attribute.setter}($attribute.type $attribute.var) {
         this.$attribute.var = $attribute.var;
     }
@@ -208,12 +253,20 @@ $output.require("$entity.collectionType.implementationFullType")##
     }
 #end
 #if($attribute.isSimplePk())
-
+    @Override
     $output.dynamicAnnotation("javax.persistence.Transient")
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public boolean ${attribute.has}() {
         return $attribute.var != null#if ($attribute.isString() && !$attribute.isEnum()) && !${attribute.var}.isEmpty()#end;
     }
+
+    @Override
+    $output.dynamicAnnotation("javax.persistence.Transient")
+    $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
+    public boolean isNew() {
+        return !${entity.primaryKey.has}();
+    }
+
 #end
 #end
 #end
@@ -249,7 +302,7 @@ $output.require("$entity.collectionType.implementationFullType")##
      */
     public void ${relation.to.setter}($relation.to.type $relation.to.var) {
         this.$relation.to.var = $relation.to.var;
-#if (!$relation.isIntermediate())
+#if (!$relation.isIntermediate())        
 #foreach ($attributePair in $relation.attributePairs)
 #if ($attributePair.fromAttribute.isInCpk() && $attributePair.toAttribute.isInCpk())
          ${identifiableProperty.getter}().${attributePair.fromAttribute.setter}($relation.to.var != null ? ${relation.to.var}.${identifiableProperty.getter}().${attributePair.toAttribute.getter}() : null);
@@ -299,7 +352,7 @@ $output.require("$entity.collectionType.implementationFullType")##
 ## FORWARD ONE TO ONE SETTER
     public void ${relation.to.setter}($relation.to.type $relation.to.var) {
         this.$relation.to.var = $relation.to.var;
-#if (!$relation.isIntermediate())
+#if (!$relation.isIntermediate())        
 #foreach ($attributePair in $relation.attributePairs)
 #if ($attributePair.fromAttribute.isInCpk() && $attributePair.toAttribute.isInCpk())
         ${identifiableProperty.getter}().${attributePair.fromAttribute.setter}($relation.to.var != null ? ${relation.to.var}.${identifiableProperty.getter}().${attributePair.toAttribute.getter}() : null);
@@ -425,7 +478,7 @@ $output.require("$entity.collectionType.implementationFullType")##
     public void ${relation.to.setters}(${entity.collectionType.type}<$relation.to.type> $relation.to.vars) {
         this.$relation.to.vars = $relation.to.vars;
     }
-
+    
 
     /**
      * Helper method to add the passed {@link $relation.to.type} to the {@link #$relation.to.vars} list
@@ -467,9 +520,9 @@ $output.require("$entity.collectionType.implementationFullType")##
     // -----------------------------------------------------------------
 #end
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // many-to-many: $relation.fromEntity.model.var ==> $relation.to.vars
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     /**
      * Returns the {@link #$relation.to.vars} list.
@@ -584,8 +637,8 @@ $output.require("$entity.collectionType.implementationFullType")##
 #end
 
         if (previousHashCode != 0 && previousHashCode != hashCode) {
-            log.warning("DEVELOPER: hashCode has changed!." //
-                    + "If you encounter this message you should take the time to carefuly review equals/hashCode for: " //
+            log.warn("DEVELOPER: hashCode has changed!." //
+                    + "If you encounter this message you should take the time to carefully review equals/hashCode for: " //
                     + getClass().getCanonicalName());
         }
 
@@ -593,7 +646,7 @@ $output.require("$entity.collectionType.implementationFullType")##
         return hashCode;
     }
 
-#elseif($entity.isRoot())
+#elseif($entity.isRoot())    
 $output.require($ModelSupport, "IdentifiableHashBuilder")##
     private IdentifiableHashBuilder identifiableHashBuilder = new IdentifiableHashBuilder();
 
@@ -608,7 +661,7 @@ $output.require($ModelSupport, "IdentifiableHashBuilder")##
     // -----------------------
     // Localization shortcuts
     // -----------------------
-$output.require("com.jaxio.jpa.querybyexample.LocaleHolder")##
+$output.require($Context, "LocaleHolder")##
 #end
 
     /**
@@ -635,7 +688,7 @@ $output.require("com.jaxio.jpa.querybyexample.LocaleHolder")##
      */
     @Override
     public String toString() {
-        return #if ($entity.hasParent())super.toString() + #{end}Objects.toStringHelper(this) //
+        return #if ($entity.hasParent())super.toString() + #{end}MoreObjects.toStringHelper(this) //
 #foreach ($attribute in $entity.nonCpkAttributes.list)
 #if(!$attribute.isInFk() || $attribute.isSimplePk())
             .add("${attribute.var}", #if($attribute.isPassword())"XXXX"#else${attribute.getter}()#end) //
@@ -665,9 +718,9 @@ $output.require("com.jaxio.jpa.querybyexample.LocaleHolder")##
     $output.dynamicAnnotation("javax.xml.bind.annotation.XmlTransient")
     public void copyTo($entity.model.type $entity.model.var) {
 #if ($entity.isRoot() && $entity.primaryKey.isComposite())
-		if (${entity.primaryKey.getter}() != null) {
-			${entity.model.var}.${entity.primaryKey.setter}(${entity.primaryKey.getter}().copy());
-		}
+        if (${entity.primaryKey.getter}() != null) {
+            ${entity.model.var}.${entity.primaryKey.setter}(${entity.primaryKey.getter}().copy());
+        }
 #end
 #foreach ($attribute in $entity.nonCpkAttributes.list)
 #if ($attribute.isSetterAccessibilityPublic())
