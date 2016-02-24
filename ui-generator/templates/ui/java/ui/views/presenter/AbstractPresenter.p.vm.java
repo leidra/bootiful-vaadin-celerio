@@ -1,23 +1,20 @@
-package net.leidra.pm.ui.views.Presenter;
+$output.java("${configuration.rootPackage}.web.ui.presenter","AbstractPresenter")##
 
-import com.vaadin.data.util.BeanItemContainer;
-import net.leidra.pm.core.services.Service;
-import net.leidra.pm.shared.dtos.Dto;
-import net.leidra.pm.ui.views.AbstractView;
+$output.require("com.vaadin.data.util.BeanItemContainer")##
+$output.require("${configuration.rootPackage}.service.Service")##
+$output.require("${configuration.rootPackage}.shared.dtos.Dto")##
+$output.require("${configuration.rootPackage}.web.ui.views.AbstractView")##
+$output.require("java.lang.reflect.ParameterizedType")##
+$output.require("java.io.Serializable")##
 
-import java.lang.reflect.ParameterizedType;
-
-/**
- * Created by afuentes on 28/12/15.
- */
-public abstract class AbstractPresenter<BEAN extends Dto> implements Presenter<BEAN> {
-    protected Service<BEAN> service;
+public abstract class $output.currentClass<BEAN extends Dto, ID extends Serializable> implements Presenter<BEAN, ID> {
+    protected Service<BEAN, ID> service;
 
     protected abstract AbstractView getCurrentView();
 
     public void edit(BEAN dto) {
         if (dto.getId() != null) {
-            dto = getService().findOne(dto.getId());
+            dto = getService().findOne((ID) dto.getId());
         }
 
         getCurrentView().getEditor().setDatasource(dto);
@@ -25,7 +22,7 @@ public abstract class AbstractPresenter<BEAN extends Dto> implements Presenter<B
     }
 
     public void remove(BEAN dto) {
-        getService().remove(dto.getId());
+        getService().remove((ID) dto.getId());
 
         this.showList();
     }
@@ -44,7 +41,7 @@ public abstract class AbstractPresenter<BEAN extends Dto> implements Presenter<B
     }
 
     @Override
-    public Service<BEAN> getService() {
+    public Service<BEAN, ID> getService() {
         return this.service;
     }
 }

@@ -1,16 +1,14 @@
-package net.leidra.pm.ui.views.crud;
+$output.java("${configuration.rootPackage}.web.ui.components","ListComponent")##
 
-import com.vaadin.event.SelectionEvent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Grid;
-import net.leidra.pm.shared.dtos.Dto;
+$output.require("com.vaadin.event.SelectionEvent")##
+$output.require("com.vaadin.ui.Button")##
+$output.require("com.vaadin.ui.Component")##
+$output.require("com.vaadin.ui.CssLayout")##
+$output.require("com.vaadin.ui.Grid")##
+$output.require("${configuration.rootPackage}.shared.dtos.Dto")##
+$output.require("java.io.Serializable")##
 
-/**
- * Created by afuentes on 28/12/15.
- */
-public abstract class AbstractListComponent<BEAN extends Dto> extends AbstractComponent<BEAN> implements ListViewComponent<BEAN> {
+public abstract class $output.currentClass<BEAN extends Dto, ID extends Serializable> extends CrudComponent<BEAN, ID> implements ListViewComponent<BEAN> {
     protected Grid grid = new Grid();
 
     public void refresh() {

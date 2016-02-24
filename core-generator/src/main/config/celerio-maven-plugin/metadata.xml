@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.jaxio.com/schema/celerio">
+  <jdbcConnectivity driver="org.h2.Driver" url="jdbc:h2:/home/afuentes/Desarrollo/workspace/bootiful-vaadin-celerio/core-generator/target/db/core-generator;MVCC=TRUE;FILE_LOCK=NO" user="core-generator" password="core-generator" schemaName="" tableNamePattern="%" oracleRetrieveRemarks="false" oracleRetrieveSynonyms="true" reverseIndexes="true" reverseOnlyUniqueIndexes="true" catalog="">
+    <tableTypes>
+      <tableType>TABLE</tableType>
+    </tableTypes>
+  </jdbcConnectivity>
+  <databaseInfo databaseMajorVersion="1" databaseMinorVersion="4" databaseProductName="H2" databaseProductVersion="1.4.190 (2015-10-11)" driverMajorVersion="1" driverMinorVersion="4" driverName="H2 JDBC Driver" driverVersion="1.4.190 (2015-10-11)" extraInfo=""/>
+  <tables>
+    <table name="BRAND" type="TABLE">
+      <columns>
+        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_7045564D_BF66_4A38_AA1F_E43F9A92A4B2)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
+        <column name="NAME" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="2" size="50" type="VARCHAR"/>
+        <column name="CREATED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="3" size="23" type="TIMESTAMP"/>
+        <column name="LAST_MODIFIED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="4" size="23" type="TIMESTAMP"/>
+      </columns>
+      <indexes>
+        <indexe columnName="NAME" indexName="CONSTRAINT_INDEX_3" nonUnique="false"/>
+        <indexe columnName="ID" indexName="PRIMARY_KEY_3" nonUnique="false"/>
+      </indexes>
+      <importedKeys/>
+      <primaryKeys>
+        <primaryKey>ID</primaryKey>
+      </primaryKeys>
+    </table>
+    <table name="USERS" type="TABLE">
+      <columns>
+        <column name="ID" columnDef="(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_051A16F2_8E54_42E4_A55F_0ACE507BD3CE)" decimalDigits="0" autoIncrement="true" nullable="false" ordinalPosition="1" size="10" type="INTEGER"/>
+        <column name="NAME" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="2" size="50" type="VARCHAR"/>
+        <column name="PASSWORD" decimalDigits="0" autoIncrement="false" nullable="false" ordinalPosition="3" size="250" type="VARCHAR"/>
+        <column name="CREATED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="4" size="23" type="TIMESTAMP"/>
+        <column name="LAST_MODIFIED_DATE" decimalDigits="10" autoIncrement="false" nullable="false" ordinalPosition="5" size="23" type="TIMESTAMP"/>
+      </columns>
+      <indexes>
+        <indexe columnName="NAME" indexName="CONSTRAINT_INDEX_4" nonUnique="false"/>
+        <indexe columnName="ID" indexName="PRIMARY_KEY_4" nonUnique="false"/>
+      </indexes>
+      <importedKeys/>
+      <primaryKeys>
+        <primaryKey>ID</primaryKey>
+      </primaryKeys>
+    </table>
+  </tables>
+</metadata>

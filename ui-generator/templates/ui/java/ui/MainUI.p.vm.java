@@ -13,10 +13,12 @@ $output.require("org.springframework.beans.factory.annotation.Autowired")##
 $output.require("org.springframework.util.CollectionUtils")##
 $output.require("org.vaadin.spring.security.util.SecurityExceptionUtils")##
 
-$output.require("${WebUi}.components.Menu")##
-$output.require("${WebUi}.views.AccessDeniedView")##
-$output.require("${WebUi}.views.ErrorView")##
-$output.require("${WebUi}.views.products.ProductView")##
+$output.require("${configuration.rootPackage}.web.ui.components.Menu")##
+$output.require("${configuration.rootPackage}.web.ui.views.AccessDeniedView")##
+$output.require("${configuration.rootPackage}.web.ui.views.ErrorView")##
+##$output.require("${configuration.rootPackage}.web.ui.views.products.ProductView")##
+$output.require("java.util.HashMap")##
+$output.require("java.util.Map")##
 
 @SpringUI
 @Theme(MainUI.THEME_NAME)
@@ -70,7 +72,7 @@ public class $output.currentClass extends UI {
     private Component createSideBar() {
         if(menu.getDatasource().isEmpty()) {
             Map<String, Runnable> datasource = new HashMap<>();
-            datasource.put("Products", () -> getUI().getNavigator().navigateTo(ProductView.VIEW_NAME));
+  ##          datasource.put("Products", () -> getUI().getNavigator().navigateTo(ProductView.VIEW_NAME));
             datasource.put("Logout", () -> getPage().setLocation("/logout"));
 
             menu.setDatasource(datasource);

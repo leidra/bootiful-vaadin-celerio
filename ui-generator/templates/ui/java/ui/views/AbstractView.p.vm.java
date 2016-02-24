@@ -1,21 +1,17 @@
-package net.leidra.pm.ui.views;
+$output.java("${configuration.rootPackage}.web.ui.views","AbstractView")##
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import net.leidra.pm.ui.views.Presenter.Presenter;
-import net.leidra.pm.ui.views.crud.EditorViewComponent;
-import net.leidra.pm.ui.views.crud.ListViewComponent;
+$output.require("com.vaadin.navigator.View")##
+$output.require("com.vaadin.navigator.ViewChangeListener")##
+$output.require("com.vaadin.ui.Button")##
+$output.require("com.vaadin.ui.Component")##
+$output.require("com.vaadin.ui.CssLayout")##
+$output.require("com.vaadin.ui.CustomComponent")##
+$output.require("${configuration.rootPackage}.web.ui.presenter.Presenter")##
+$output.require("${configuration.rootPackage}.web.ui.components.EditorViewComponent")##
+$output.require("${configuration.rootPackage}.web.ui.components.ListViewComponent")##
+$output.require("javax.annotation.PostConstruct")##
 
-import javax.annotation.PostConstruct;
-
-/**
- * Created by afuentes on 27/12/15.
- */
-public abstract class AbstractView<BEAN> extends CustomComponent implements View {
+public abstract class $output.currentClass<BEAN> extends CustomComponent implements View {
     protected ListViewComponent list;
     protected EditorViewComponent editor;
     private CssLayout componentContainer = new CssLayout();

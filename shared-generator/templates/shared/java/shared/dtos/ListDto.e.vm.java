@@ -1,4 +1,4 @@
-$output.java("${configuration.rootPackage}.shared.dtos", "${entity.entityConfig.entityName}Dto")##
+$output.java("${configuration.rootPackage}.shared.dtos", "${entity.entityConfig.entityName}ListDto")##
 
 $output.require("org.slf4j.Logger")##
 $output.require("org.slf4j.LoggerFactory")##
@@ -6,6 +6,7 @@ $output.require("com.google.common.base.MoreObjects")##
 $output.require("com.google.common.base.Objects")##
 $output.require("${configuration.rootPackage}.shared.dtos.Dto")##
 $output.require("java.io.Serializable")##
+
 
 #if($entity.isRoot())
 public#if ($output.isAbstract()) abstract#{end} class ${output.currentClass}${entity.spaceAndExtendsStatement} implements Serializable, Dto<$entity.primaryKey.type>${entity.commaAndImplementedInterfaces} {
@@ -678,5 +679,4 @@ $output.require($Audit, "AuditContextHolder")##
         }
     }
 #end
-
 }

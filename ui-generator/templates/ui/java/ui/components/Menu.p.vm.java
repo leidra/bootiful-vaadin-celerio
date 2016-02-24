@@ -1,21 +1,17 @@
-package net.leidra.pm.ui.components;
+$output.java("${configuration.rootPackage}.web.ui.components","Menu")##
 
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import org.springframework.context.annotation.Scope;
-import org.springframework.util.Assert;
+$output.require("com.vaadin.spring.annotation.SpringComponent")##
+$output.require("com.vaadin.ui.Button")##
+$output.require("com.vaadin.ui.CssLayout")##
+$output.require("org.springframework.context.annotation.Scope")##
+$output.require("org.springframework.util.Assert")##
+$output.require("javax.annotation.PostConstruct")##
+$output.require("java.util.HashMap")##
+$output.require("java.util.Map")##
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by afuentes on 9/01/16.
- */
 @SpringComponent
 @Scope("session")
-public class Menu extends CssLayout {
+public class $output.currentClass extends CssLayout {
     protected Map<String, Runnable> datasource = new HashMap<>();
 
     public Menu(Map<String, Runnable> datasource) {

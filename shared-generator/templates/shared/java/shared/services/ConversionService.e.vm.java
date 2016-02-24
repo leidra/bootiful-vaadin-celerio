@@ -2,43 +2,36 @@ $output.java("${configuration.rootPackage}.shared.services", "${entity.entityCon
 
 $output.require($entity.model)##
 $output.require("${configuration.rootPackage}.shared.dtos.${entity.entityConfig.entityName}Dto")##
+$output.require("${configuration.rootPackage}.shared.dtos.${entity.entityConfig.entityName}ListDto")##
 $output.require("org.slf4j.Logger")##
 $output.require("org.slf4j.LoggerFactory")##
-$output.require("java.util.Set")##
-$output.require("ma.glasnost.orika.BoundMapperFacade")##
-$output.require("ma.glasnost.orika.MapperFactory")##
-$output.require("ma.glasnost.orika.impl.DefaultMapperFactory")##
 $output.require("org.springframework.stereotype.Service")##
+$output.require("ma.glasnost.orika.MapperFacade")##
+$output.require("org.springframework.beans.factory.annotation.Autowired")##
+$output.require("${configuration.rootPackage}.shared.dtos.Dto")##
+$output.require("${configuration.rootPackage}.domain.support.Identifiable")##
 
-@Service
-public class $output.currentClass {
+@Service(value = ${output.currentClass}.CONVERTER_NAME)
+public class $output.currentClass extends AbstractConverter {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(${output.currentClass}.class);
+    public static final String CONVERTER_NAME = "${output.currentClass}";
 
-    protected static final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-    protected static final BoundMapperFacade<${entity.entityConfig.entityName}, ${entity.entityConfig.entityName}Dto> mapperFacade = mapperFactory.getMapperFacade(${entity.entityConfig.entityName}.class, ${entity.entityConfig.entityName}Dto.class);
-
-    public ${entity.entityConfig.entityName}Dto convertToDto(${entity.entityConfig.entityName} entity) {
-        return getMapperFacade().map(entity);
+    @Autowired
+    @Override
+    protected void setMapperFacade(MapperFacade mapperFacade) {
+        this.mapperFacade = mapperFacade;
     }
 
-    public Set<${entity.entityConfig.entityName}Dto> convertToDtoSet(Iterable<${entity.entityConfig.entityName}> entities) {
-        return mapperFactory.getMapperFacade().mapAsSet(entities, ${entity.entityConfig.entityName}Dto.class);
+    protected Class<? extends Dto> getDtoType() {
+        return ${entity.entityConfig.entityName}Dto.class;
     }
 
-    public ${entity.entityConfig.entityName} convertToEntity(${entity.entityConfig.entityName}Dto dto) {
-        return getMapperFacade().mapReverse(dto);
+    protected Class<? extends Dto> getListDtoType() {
+        return ${entity.entityConfig.entityName}ListDto.class;
     }
 
-    public Set<${entity.entityConfig.entityName}> convertToEntitySet(Iterable<${entity.entityConfig.entityName}Dto> dtos) {
-        return mapperFactory.getMapperFacade().mapAsSet(dtos, ${entity.entityConfig.entityName}.class);
-    }
-
-    protected MapperFactory getMapperFactory() {
-        return mapperFactory;
-    }
-
-    protected BoundMapperFacade<${entity.entityConfig.entityName}, ${entity.entityConfig.entityName}Dto> getMapperFacade() {
-        return mapperFacade;
+    protected Class<? extends Identifiable> getEntityType() {
+        return ${entity.entityConfig.entityName}.class;
     }
 }

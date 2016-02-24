@@ -1,16 +1,13 @@
-package net.leidra.pm.ui.views.crud;
+$output.java("${configuration.rootPackage}.web.ui.components","EditorComponent")##
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.ui.*;
-import net.leidra.pm.shared.dtos.Dto;
+$output.require("com.vaadin.data.fieldgroup.BeanFieldGroup")##
+$output.require("com.vaadin.event.FieldEvents")##
+$output.require("com.vaadin.ui.*")##
+$output.require("${configuration.rootPackage}.shared.dtos.Dto")##
+$output.require("java.util.stream.Stream")##
+$output.require("java.io.Serializable")##
 
-import java.util.stream.Stream;
-
-/**
- * Created by afuentes on 28/12/15.
- */
-public abstract class AbstractEditorComponent<BEAN extends Dto> extends AbstractComponent<BEAN> implements EditorViewComponent<BEAN> {
+public abstract class $output.currentClass<BEAN extends Dto, ID extends Serializable> extends CrudComponent<BEAN, ID> implements EditorViewComponent<BEAN> {
     protected BeanFieldGroup<BEAN> fieldGroup;
 
     @Override
